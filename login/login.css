@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: url("https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1600")
+        center center/cover no-repeat;
+
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 24, 60, 0.75);
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+
+    width: 380px;
+    background: #fff;
+    border-radius: 18px;
+
+    padding: 40px;
+    text-align: center;
+
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .25);
+}
+
+.icon-top {
+    width: 52px;
+    height: 52px;
+    background: #f2b300;
+
+    margin: 0 auto 22px;
+
+    border-radius: 14px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #fff;
+    font-size: 22px;
+}
+
+h1 {
+    font-size: 20px;
+    line-height: 1.3;
+    color: #082a57;
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 28px;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #082a57;
+    font-weight: 500;
+}
+
+input,
+select {
+    width: 100%;
+    height: 48px;
+
+    border: 1px solid #ddd;
+    border-radius: 12px;
+
+    padding: 0 15px;
+    font-size: 14px;
+
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #f2b300;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.checkbox input {
+    width: auto;
+    height: auto;
+}
+
+.checkbox a {
+    color: #f2b300;
+    text-decoration: none;
+}
+
+button {
+    width: 100%;
+    height: 50px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: linear-gradient(
+        90deg,
+        #e5a100,
+        #ffc400
+    );
+
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(242, 179, 0, .35);
+}
+
+.login {
+    margin-top: 24px;
+    font-size: 14px;
+    color: #555;
+}
+
+.login a {
+    color: #f2b300;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.sports-icons {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    font-size: 28px;
+}

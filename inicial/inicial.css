@@ -1,0 +1,269 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+/* HERO */
+
+.hero{
+    height:100vh;
+    background:url("WhatsApp\ Image\ 2026-06-04\ at\ 18.32.59.jpeg") center/cover;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(
+        90deg,
+        rgba(4,28,63,.60) 33%,
+        rgba(255,183,0,.60) 33%,
+        rgba(255,183,0,.60) 66%,
+        rgba(214,143,0,.60) 66%
+    );
+}
+
+.logo{
+    position:absolute;
+    top:40px;
+    left:40px;
+    z-index:2;
+}
+
+.logo img{
+    width:250px;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    color:white;
+    max-width:900px;
+}
+
+.hero h1{
+    font-size:5rem;
+    margin-bottom:30px;
+    text-shadow: 4px 4px 8px rgba(0,0,0,0.6);
+}
+
+.hero p{
+    font-size:2rem;
+    margin-bottom:40px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+.btn-primary,
+.btn-outline{
+    padding:18px 40px;
+    border-radius:12px;
+    font-size:1.2rem;
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:#d99400;
+    border:none;
+    color:white;
+}
+
+.btn-outline{
+    background:transparent;
+    border:2px solid white;
+    color:white;
+}
+
+/* SEÇÕES */
+
+section{
+    padding:90px 7%;
+}
+
+section h2{
+    text-align:center;
+    font-size:4rem;
+    color:#082b5c;
+    margin-bottom:15px;
+}
+
+/* DESTAQUES */
+
+.cards{
+    display:flex;
+    gap:30px;
+    margin-top:50px;
+}
+
+.card{
+    flex:1;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.tag{
+    float:right;
+    background:#f1e3c7;
+    padding:8px 20px;
+    border-radius:20px;
+}
+
+.recorde{
+    font-size:3rem;
+    font-weight:bold;
+    margin:20px 0;
+}
+
+.atleta{
+    display:flex;
+    gap:20px;
+    align-items:center;
+}
+
+.avatar{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:linear-gradient(#0b2c5c,#d99c00);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:2rem;
+}
+
+/* STATS */
+
+.stats{
+    width:95%;
+    margin:auto;
+    margin-bottom:80px; /* <- adiciona aqui */
+
+    border-radius:25px;
+    background:linear-gradient(90deg,#072a59,#203d63);
+    color:white;
+    display:flex;
+    justify-content:space-around;
+}
+
+#ars{
+    text-align: center;
+}
+
+.stats h3{
+    font-size:4rem;
+}
+
+.stats p{
+    font-size:1.8rem;
+}
+
+/* COMO FUNCIONA */
+
+.como-funciona{
+    background:linear-gradient(90deg,#06244f,#27405f);
+    color:white;
+}
+
+.como-funciona h2{
+    color:white;
+}
+
+.steps{
+    margin-top:60px;
+    display:flex;
+    gap:40px;
+}
+
+.step{
+    flex:1;
+    text-align:center;
+}
+
+.icon{
+    width:160px;
+    height:160px;
+    margin:auto;
+    border-radius:50%;
+    background:#ffc400;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:4rem;
+}
+
+.step-card{
+    margin-top:30px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+    padding:40px;
+    border-radius:20px;
+}
+
+.step-card span{
+    font-size:5rem;
+    color:#ffc400;
+    font-weight:bold;
+}
+
+/* MODALIDADES */
+
+.modalidades-grid{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-top:50px;
+}
+
+.modalidade{
+    width:350px;
+    background:white;
+    border-radius:20px;
+    text-align:center;
+    padding:40px;
+    border:1px solid #ddd;
+}
+
+.emoji{
+    font-size:5rem;
+}
+
+/* CTA */
+
+.cta{
+    background:linear-gradient(135deg,#082d5e,#243f57);
+    text-align:center;
+    color:white;
+}
+
+.cta h2{
+    color:white;
+}
+
+.cta button{
+    margin-top:40px;
+    padding:20px 50px;
+    border:none;
+    border-radius:12px;
+    background:#d99400;
+    color:white;
+    font-size:1.3rem;
+    cursor:pointer;
+}
