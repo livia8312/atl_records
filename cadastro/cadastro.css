@@ -14,7 +14,10 @@ body{
 
     background:url("background.jpg") center center/cover no-repeat;
 }
-
+a{
+    color:white;
+    text-decoration:none;
+}
 .overlay{
     position:absolute;
     inset:0;

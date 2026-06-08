@@ -13,13 +13,35 @@ body{
 
 .hero{
     height:100vh;
-    background:url("WhatsApp\ Image\ 2026-06-04\ at\ 18.32.59.jpeg") center/cover;
+    background:url("WhatsApp\ Image\ 2026-06-08\ at\ 16.25.13.jpeg") center/cover;
     position:relative;
     display:flex;
     justify-content:center;
     align-items:center;
 }
+.btn-primary,
+.btn-outline{
+    display:inline-block;
+    text-decoration:none;
+    text-align:center;
 
+    transition: all .25s ease;
+}
+
+.btn-primary:hover,
+.btn-outline:hover{
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,.2);
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+#pedro{
+    text-align: center;
+}
 .overlay{
     position:absolute;
     inset:0;
