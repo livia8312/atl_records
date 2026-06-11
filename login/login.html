@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    <link rel="stylesheet" href="login.css">
+    <title>Login - AtlRecords</title>
 
-    <!-- Ícones -->
+    <link rel="stylesheet" href="login.css">
+    <script src="login.js" defer></script>
+
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -14,70 +15,48 @@
 
     <div class="overlay"></div>
 
-    <div class="container">
+    <!-- Logo -->
+    <div class="logo">
+        <img src="logo.png" alt="AtlRecords">
+    </div>
 
-        <div class="icon-top">
-            <i class="fa-solid fa-user-plus"></i>
+    <!-- Card Login -->
+    <div class="login-card">
+
+        <div class="login-icon">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
         </div>
 
-        <h1>Comece sua jornada<br>rumo aos recordes.</h1>
+        <h1>Bem-vindo de volta!</h1>
 
-        <p class="subtitle">
-            Crie sua conta gratuitamente e registre seus resultados.
+        <p>
+            Acesse sua conta e acompanhe sua evolução.
         </p>
 
         <form>
 
             <div class="form-group">
-                <label>Nome completo</label>
-                <input type="text" placeholder="Seu nome">
-            </div>
-
-            <div class="form-group">
                 <label>E-mail</label>
-                <input type="email" placeholder="seu@email.com">
+                <input
+                    type="email"
+                    placeholder="seu@email.com">
             </div>
 
             <div class="form-group">
                 <label>Senha</label>
-                <input type="password" placeholder="********">
+                <input
+                    type="password"
+                    placeholder="••••••••">
             </div>
-
-            <div class="form-group">
-                <label>Confirmar senha</label>
-                <input type="password" placeholder="********">
-            </div>
-
-            <div class="form-group">
-                <label>Modalidade principal</label>
-                <select>
-                    <option>Selecione uma modalidade</option>
-                    <option>Corrida</option>
-                    <option>Natação</option>
-                    <option>Ciclismo</option>
-                </select>
-            </div>
-
-            <div class="checkbox">
-                <input type="checkbox" id="termos">
-                <label for="termos">
-                    Aceito os <a href="#">termos de uso</a>
-                </label>
-            </div>
-
-            <button type="submit"> <a href="../perfil2/perfil2.html">Criar Conta</a></button>
-
+            <button class="btn-login">
+               <a href="../perfil2/perfil2.html">Entrar</a>
+            </button>
         </form>
 
-        <div class="login">
-            Já possui conta?
-            <a href="../cadastro/cadastro.html">Entrar</a>
-        </div>
-
-        <div class="sports-icons">
+        <div class="bottom-icons">
             <span>🏃</span>
-            <span>🤸</span>
-            <span>🌊</span>
+            <span>🏅</span>
+            <span>⚡</span>
         </div>
 
     </div>

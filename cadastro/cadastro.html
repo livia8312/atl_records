@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - AtlRecords</title>
-
+    <title>Cadastro</title>
     <link rel="stylesheet" href="cadastro.css">
+    <script type="module" src="cadastro.js"></script>
 
+    <!-- Ícones -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -14,48 +15,75 @@
 
     <div class="overlay"></div>
 
-    <!-- Logo -->
-    <div class="logo">
-        <img src="logo.png" alt="AtlRecords">
-    </div>
+    <div class="container">
 
-    <!-- Card Login -->
-    <div class="login-card">
-
-        <div class="login-icon">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        <div class="icon-top">
+            <i class="fa-solid fa-user-plus"></i>
         </div>
 
-        <h1>Bem-vindo de volta!</h1>
+        <h1>Comece sua jornada<br>rumo aos recordes.</h1>
 
-        <p>
-            Acesse sua conta e acompanhe sua evolução.
+        <p class="subtitle">
+            Crie sua conta gratuitamente e registre seus resultados.
         </p>
 
-        <form>
+        <form action="">
+
+            <div class="form-group">
+                <label>Nome completo</label>
+                <input id="nome" type="text" placeholder="Seu nome">
+            </div>
+
+            <div class="form-group">
+                <label>Data de nascimento</label>
+                <input id="dataNascimento" type="date" placeholder="dd/mm/aaaa" required>
+            </div>
 
             <div class="form-group">
                 <label>E-mail</label>
-                <input
-                    type="email"
-                    placeholder="seu@email.com">
+                <input id="email" type="email" placeholder="seu@email.com" required>
             </div>
 
             <div class="form-group">
                 <label>Senha</label>
-                <input
-                    type="password"
-                    placeholder="••••••••">
+                <input id="senha" type="password" placeholder="********" required>
             </div>
-            <button class="btn-login">
-               <a href="../perfil2/perfil2.html">Entrar</a>
-            </button>
+
+            <div class="form-group">
+                <label>Confirmar senha</label>
+                <input id="confirmarSenha" type="password" placeholder="********" required>
+            </div>
+
+            <div class="form-group">
+                <label>Modalidade principal</label>
+                <select>
+                    <option>Selecione uma modalidade</option>
+                    <option>Corrida</option>
+                    <option>Natação</option>
+                    <option>Ciclismo</option>
+                </select>
+            </div>
+
+            <div class="checkbox">
+                <input type="checkbox" id="termos">
+                <label for="termos">
+                    Aceito os <a href="#">termos de uso</a>
+                </label>
+            </div>
+
+            <button type="submit">Criar Conta</button>
+
         </form>
 
-        <div class="bottom-icons">
+        <div class="cadastro">
+            Já possui conta?
+            <a href="../cadastro/cadastro.html">Entrar</a>
+        </div>
+
+        <div class="sports-icons">
             <span>🏃</span>
-            <span>🏅</span>
-            <span>⚡</span>
+            <span>🤸</span>
+            <span>🌊</span>
         </div>
 
     </div>
