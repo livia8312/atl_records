@@ -1,4 +1,7 @@
-import { usuarios } from "../inicial/inicial.js";
+import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
+
+
+const usuarios = loadFromLocalStorage("cadastro");
 
 const formulario = document.querySelector('form')
 formulario.addEventListener('submit', (event) => {
@@ -17,8 +20,9 @@ formulario.addEventListener('submit', (event) => {
     }
 
     usuarios.push(usuario)
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+    // localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    saveToLocalStorage("usuarioLogado", usuario);
+    saveToLocalStorage("cadastro", usuarios);
 
     console.log(localStorage.getItem("usuarios"))
 
