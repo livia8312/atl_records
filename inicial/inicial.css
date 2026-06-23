@@ -94,6 +94,7 @@ body{
     align-items:center;
 }
 .btn-primary,
+.btn-admin,
 .btn-outline{
     display:inline-block;
     text-decoration:none;
@@ -103,6 +104,7 @@ body{
 }
 
 .btn-primary:hover,
+.btn-admin:hover,
 .btn-outline:hover{
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 8px 20px rgba(0,0,0,.2);
@@ -166,7 +168,8 @@ a{
 }
 
 .btn-primary,
-.btn-outline{
+.btn-outline,
+.btn-admin{
     padding:18px 40px;
     border-radius:12px;
     font-size:1.2rem;
@@ -182,6 +185,12 @@ a{
 .btn-outline{
     background:transparent;
     border:2px solid white;
+    color:white;
+}
+
+.btn-admin{
+    background:#10284b;
+    border: none;
     color:white;
 }
 

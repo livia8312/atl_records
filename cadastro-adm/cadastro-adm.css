@@ -1,0 +1,328 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+body{
+
+    min-height:100vh;
+
+    background:#092342;
+
+    border-top:6px solid #f5b400;
+
+    color:white;
+
+}
+
+
+
+/* botão voltar */
+
+.back-btn{
+
+    position:absolute;
+
+    top:35px;
+    left:30px;
+
+
+    color:#b8c7da;
+
+    text-decoration:none;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+
+.back-btn:hover{
+
+    color:white;
+
+}
+
+
+
+/* centro */
+
+.container{
+
+    height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+
+/* topo */
+
+
+.header-admin{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+
+.icon{
+
+    width:90px;
+
+    height:90px;
+
+
+    background:#203b5d;
+
+
+    border:1px solid #55708f;
+
+
+    border-radius:18px;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    font-size:45px;
+
+
+    margin:auto;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.header-admin h1{
+
+    font-size:28px;
+
+    margin-bottom:8px;
+
+}
+
+
+.header-admin p{
+
+    color:#9eb1c9;
+
+}
+
+
+
+/* card */
+
+
+.card{
+
+
+    width:490px;
+
+
+    background:white;
+
+
+    border-radius:18px;
+
+
+    padding:35px;
+
+
+    color:#092342;
+
+
+}
+
+
+
+/* aviso */
+
+
+.demo{
+
+
+    background:#fff8df;
+
+
+    border:1px solid #f2d27a;
+
+
+    border-radius:15px;
+
+
+    padding:18px;
+
+
+    margin-bottom:30px;
+
+
+    font-size:14px;
+
+
+}
+
+
+.demo p{
+
+    margin-top:8px;
+
+}
+
+
+
+
+label{
+
+
+    display:block;
+
+
+    margin-bottom:8px;
+
+
+    margin-top:18px;
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+/* inputs */
+
+
+.input{
+
+
+    height:55px;
+
+
+    border:2px solid #e1e6ed;
+
+
+    border-radius:14px;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+    padding:0 15px;
+
+
+}
+
+
+
+.input input{
+
+
+    border:none;
+
+
+    outline:none;
+
+
+    width:100%;
+
+
+    font-size:16px;
+
+
+}
+
+
+
+
+/* botão */
+
+
+.admin-btn{
+
+
+    width:100%;
+
+
+    height:55px;
+
+
+    margin-top:25px;
+
+
+    border:none;
+
+
+    border-radius:15px;
+
+
+    background:#092342;
+
+
+    color:white;
+
+
+    font-size:16px;
+
+
+    font-weight:bold;
+
+
+    cursor:pointer;
+
+
+    transition:.3s;
+
+}
+
+
+
+.admin-btn:hover{
+
+
+    transform:scale(1.04);
+
+
+}
+
+
+
+
+.footer{
+
+
+    margin-top:30px;
+
+
+    color:#7890ad;
+
+
+    font-size:14px;
+
+}

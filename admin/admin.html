@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Eventos</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <main class="container">
+
+        <div class="topo">
+            <div>
+                <h1>Gestão de Eventos</h1>
+                <p>Crie, edite e organize os eventos esportivos da plataforma.</p>
+            </div>
+
+            <button id="abrirModal" class="btn-criar">
+                ➕ Criar Novo Evento
+            </button>
+        </div>
+
+        <section class="estatisticas">
+            <div class="card azul">
+                <h2>0</h2>
+                <span>Total de Eventos</span>
+            </div>
+
+            <div class="card amarelo">
+                <h2>0</h2>
+                <span>Corridas</span>
+            </div>
+
+            <div class="card amarelo2">
+                <h2>0</h2>
+                <span>Saltos</span>
+            </div>
+
+            <div class="card roxo">
+                <h2>0</h2>
+                <span>Arremessos</span>
+            </div>
+        </section>
+
+        <!-- Os cards serão criados pelo JS -->
+        <section id="listaEventos"></section>
+
+    </main>
+
+    <!-- MODAL -->
+
+    <div id="modalEvento" class="modal">
+        <div class="modal-content">
+
+            <button id="fecharModal" class="fechar">✕</button>
+
+            <div class="titulo-modal">
+                <div class="icone">📅</div>
+
+                <div>
+                    <h2>Criar Novo Evento</h2>
+                    <p>Preencha os dados para publicar.</p>
+                </div>
+            </div>
+
+            <form>
+
+                <label>Nome do Evento *</label>
+                <input type="text"
+                    placeholder="Ex: Campeonato Estadual de Velocidade">
+
+                <label>Categoria *</label>
+                <select>
+                    <option>🏃 Corridas</option>
+                    <option>🤸 Saltos</option>
+                    <option>🥏 Arremessos</option>
+                </select>
+
+                <div class="linha">
+
+                    <div>
+                        <label>Data *</label>
+                        <input type="date">
+                    </div>
+
+                    <div>
+                        <label>Local *</label>
+                        <input type="text"
+                            placeholder="Ex: Estádio Municipal, SP">
+                    </div>
+
+                </div>
+
+                <label>Descrição</label>
+                <textarea placeholder="Detalhes sobre o evento, regras, categorias de idade..."></textarea>
+
+                <div class="botoes-modal">
+                    <button type="button" id="cancelar">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="publicar">
+                        Publicar Evento
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("modalEvento");
+
+        document.getElementById("abrirModal")
+            .addEventListener("click", () => {
+                modal.classList.add("ativo");
+            });
+
+        document.getElementById("fecharModal")
+            .addEventListener("click", () => {
+                modal.classList.remove("ativo");
+            });
+
+        document.getElementById("cancelar")
+            .addEventListener("click", () => {
+                modal.classList.remove("ativo");
+            });
+
+        modal.addEventListener("click", (e) => {
+            if(e.target === modal){
+                modal.classList.remove("ativo");
+            }
+        });
+    </script>
+
+</body>
+</html>
