@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard - AtlRecords</title>
+    <title>Dashboard - AtlRecords</title>
 
-<link rel="stylesheet" href="perfil2.css">
+    <link rel="stylesheet" href="perfil2.css">
+    <script src="perfil2.js" defer></script>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
 <!-- HEADER -->
-
 <header class="header">
 
     <div class="logo">
@@ -29,16 +30,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             <span>↗ Atleta em evolução</span>
         </div>
 
-        <div class="avatar">
-            JS
-        </div>
+        <div class="avatar">JS</div>
 
         <button class="icon-btn">
             <i class="fa-solid fa-gear"></i>
         </button>
 
-        <button class="icon-btn logout"><a href="../inicial/inicial.html">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+        <button class="icon-btn logout">
+            <a href="../inicial/inicial.html">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
         </button>
 
     </div>
@@ -48,23 +49,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <div class="header-line"></div>
 
 <!-- MAIN -->
-
 <main class="container">
 
+    <!-- WELCOME -->
     <section class="welcome">
 
-        <h1>
-            Bem-vindo de volta, João! 👋
-        </h1>
+        <h1>Bem-vindo de volta, João! 👋</h1>
 
-        <p>
-            Continue quebrando seus limites e alcançando novos recordes
-        </p>
+        <p>Continue quebrando seus limites e alcançando novos recordes</p>
 
     </section>
 
     <!-- STATS -->
-
     <section class="stats">
 
         <div class="stat-card orange">
@@ -82,116 +78,119 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             <h2>0</h2>
         </div>
 
-        <div class="stat-card green">
-            <span>📊 Evolução</span>
-            <h2>--</h2>
-        </div>
-
     </section>
 
     <!-- CARDS -->
-
     <section class="cards">
 
         <div class="feature-card blue">
 
-            <div class="card-icon">
-                🏆
-            </div>
+            <div class="card-icon">🏆</div>
 
             <h2>Meus Recordes</h2>
 
-            <p>
-                Acompanhe todos os seus recordes pessoais e compare com outros atletas
-            </p>
+            <button id="abrirModal" class="btn-criar">➕</button>
 
-            <a href="#">
-                Ver meus recordes ⦿
-            </a>
+            <p>Acompanhe todos os seus recordes pessoais e compare com outros atletas</p>
+
+            <a href="#">Ver meus recordes ⦿</a>
 
         </div>
 
         <div class="feature-card gold">
 
-            <div class="card-icon">
-                📅
-            </div>
+            <div class="card-icon">📅</div>
 
             <h2>Próximos Eventos</h2>
 
-            <p>
-                Veja competições próximas e se inscreva para participar
-            </p>
-
-            <a href="#">
-                Explorar eventos ⦿
-            </a>
+            <a href="#" id="explorarEventos">Explorar eventos ⦿</a>
 
         </div>
 
         <div class="feature-card purple">
 
-            <div class="card-icon">
-                🎖
-            </div>
+            <div class="card-icon">🎖</div>
 
             <h2>Minhas Conquistas</h2>
 
-            <p>
-                Troféus, medalhas e badges conquistados ao longo da jornada
-            </p>
+            <p>Troféus, medalhas e badges conquistados ao longo da jornada</p>
 
-            <a href="#">
-                Ver conquistas ⦿
-            </a>
+            <a href="#">Ver conquistas ⦿</a>
 
         </div>
 
         <div class="feature-card green-card">
 
-            <div class="card-icon">
-                📈
-            </div>
+            <div class="card-icon">📈</div>
 
             <h2>Melhorias</h2>
 
-            <p>
-                Acompanhe sua evolução e veja estatísticas de progresso
-            </p>
+            <p>Acompanhe sua evolução e veja estatísticas de progresso</p>
 
-            <a href="#">
-                Ver estatísticas ⦿
-            </a>
-
-        </div>
-
-    </section>
-
-    <!-- QUICK ACTIONS -->
-
-    <section class="actions">
-
-        <h3>Ações Rápidas</h3>
-
-        <div class="buttons">
-
-            <button class="btn-primary">
-                + Registrar Recorde
-            </button>
-
-            <button class="btn-outline">
-                Ver Ranking
-            </button>
-
-            <button class="btn-outline">
-                Meu Perfil
-            </button>
+            <a href="#">Ver estatísticas ⦿</a>
 
         </div>
 
     </section>
 
 </main>
+
+<!-- MODAL RECORDES -->
+<div id="modalEvento" class="modal">
+
+    <div class="modal-content">
+
+        <button id="fecharModal" class="fechar">✕</button>
+
+        <h2>Adicionar recorde</h2>
+
+        <form>
+
+            <label>Modalidade*</label>
+
+            <select>
+                <option>100m Rasos</option>
+                <option>200m Rasos</option>
+                <option>400m Rasos</option>
+                <option>800m</option>
+                <option>1500m</option>
+                <option>Salto em Altura</option>
+                <option>Salto em Distância</option>
+                <option>Salto Triplo</option>
+                <option>Arremesso de Peso</option>
+                <option>Arremesso de Disco</option>
+                <option>Arremesso de Dardo</option>
+            </select>
+
+            <div class="linha">
+
+                <div>
+                    <label>Resultado *</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Data *</label>
+                    <input type="date">
+                </div>
+
+            </div>
+
+            <div class="botoes-modal">
+
+                <button id="cancelar" type="button">Cancelar</button>
+
+                <button id="publicar" type="submit">
+                    Adicionar Recorde
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>

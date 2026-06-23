@@ -27,15 +27,38 @@ a{
 }
 
 .logo{
+
     position:absolute;
-    top:26px;
-    left:26px;
-    z-index:2;
+
+    top:25px;
+    left:25px;
+
+    background:white;
+
+    width:230px;
+    height:75px;
+
+    border-radius:50px;
+
+    z-index:10;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
 }
 
+
 .logo img{
-    width:170px;
-    border-radius:30px;
+
+    width:215px;
+
+    height:auto;
+
+    display:block;
+
 }
 
 .login-card{

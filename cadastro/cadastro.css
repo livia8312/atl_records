@@ -10,13 +10,43 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    background: url("https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1600")
-        center center/cover no-repeat;
-
+    background-color: fff;
     position: relative;
 }
+.logo{
 
+    position:absolute;
+
+    top:25px;
+    left:25px;
+
+    background:white;
+
+    width:230px;
+    height:75px;
+
+    border-radius:50px;
+
+    z-index:10;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+}
+
+
+.logo img{
+
+    width:215px;
+
+    height:auto;
+
+    display:block;
+
+}
 .overlay {
     position: absolute;
     inset: 0;

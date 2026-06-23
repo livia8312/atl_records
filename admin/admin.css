@@ -213,6 +213,18 @@ textarea{
     font-size:16px;
 }
 
+.modal-content{
+
+    background:white;
+
+    width:450px;
+    padding:30px;
+
+    border-radius:20px;
+
+    position:relative;
+}
+
 #cancelar{
     background:#ececec;
 }
