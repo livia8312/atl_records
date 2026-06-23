@@ -1,12 +1,7 @@
-const modalEventos = document.getElementById("modalEvento");
-const btnExplorar = document.getElementById("explorarEventos");
-const fecharEventos = document.getElementById("fecharEventos");
+function abrirModal() {
+    document.getElementById("modal").style.display = "block";
+}
 
-btnExplorar.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalEventos.classList.add("ativo");
-});
-
-fecharEventos.addEventListener("click", () => {
-    modalEventos.classList.remove("ativo");
-});
+function fecharModal() {
+    document.getElementById("modal").style.display = "none";
+}

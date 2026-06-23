@@ -6,6 +6,8 @@
 }
 .btn-criar{
 
+    display:flex;
+    
     width:45px;
     height:45px;
 

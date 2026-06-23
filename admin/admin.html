@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Eventos</title>
     <link rel="stylesheet" href="admin.css">
+    <script src="admin.js" defer></script>
 </head>
 <body>
 
@@ -23,29 +24,32 @@
 
         <section class="estatisticas">
             <div class="card azul">
-                <h2>0</h2>
+                <h2 id="totalE">0</h2>
                 <span>Total de Eventos</span>
             </div>
 
             <div class="card amarelo">
-                <h2>0</h2>
+                <h2 id="totalC">0</h2>
                 <span>Corridas</span>
             </div>
 
             <div class="card amarelo2">
-                <h2>0</h2>
+                <h2 id="totalS">0</h2>
                 <span>Saltos</span>
             </div>
 
             <div class="card roxo">
-                <h2>0</h2>
+                <h2 id="totalA">0</h2>
                 <span>Arremessos</span>
             </div>
         </section>
 
         <!-- Os cards serão criados pelo JS -->
-        <section id="listaEventos"></section>
-
+        <section id="listaEventos">
+            <div id="corridas"></div>
+            <div id="saltos"></div>
+            <div id="arremessos"></div>
+        </section>
     </main>
 
     <!-- MODAL -->
@@ -64,43 +68,44 @@
                 </div>
             </div>
 
-            <form>
+            <form id="formEvento" class="form-modal">
 
                 <label>Nome do Evento *</label>
-                <input type="text"
+                <input id="nomeEvento" type="text"
                     placeholder="Ex: Campeonato Estadual de Velocidade">
 
                 <label>Categoria *</label>
-                <select>
-                    <option>🏃 Corridas</option>
-                    <option>🤸 Saltos</option>
-                    <option>🥏 Arremessos</option>
+                <select id="categoriaEvento">
+                    <option value="" selected>Selecione a categoria</option>
+                    <option id="corridas">Corridas</option>
+                    <option id="saltos">Saltos</option>
+                    <option id="arremessos">Arremessos</option>
                 </select>
 
                 <div class="linha">
 
                     <div>
                         <label>Data *</label>
-                        <input type="date">
+                        <input id="dataEvento" type="date">
                     </div>
 
                     <div>
                         <label>Local *</label>
-                        <input type="text"
+                        <input id="localEvento" type="text"
                             placeholder="Ex: Estádio Municipal, SP">
                     </div>
 
                 </div>
 
                 <label>Descrição</label>
-                <textarea placeholder="Detalhes sobre o evento, regras, categorias de idade..."></textarea>
+                <textarea id="descricaoEvento" placeholder="Detalhes sobre o evento, regras, categorias de idade..."></textarea>
 
                 <div class="botoes-modal">
                     <button type="button" id="cancelar">
                         Cancelar
                     </button>
 
-                    <button type="submit" class="publicar">
+                    <button type="submit" id="publicar">
                         Publicar Evento
                     </button>
                 </div>
@@ -109,31 +114,5 @@
 
         </div>
     </div>
-
-    <script>
-        const modal = document.getElementById("modalEvento");
-
-        document.getElementById("abrirModal")
-            .addEventListener("click", () => {
-                modal.classList.add("ativo");
-            });
-
-        document.getElementById("fecharModal")
-            .addEventListener("click", () => {
-                modal.classList.remove("ativo");
-            });
-
-        document.getElementById("cancelar")
-            .addEventListener("click", () => {
-                modal.classList.remove("ativo");
-            });
-
-        modal.addEventListener("click", (e) => {
-            if(e.target === modal){
-                modal.classList.remove("ativo");
-            }
-        });
-    </script>
-
 </body>
 </html>

@@ -89,7 +89,7 @@
 
             <h2>Meus Recordes</h2>
 
-            <button id="abrirModal" class="btn-criar">➕</button>
+            <button onclick="abrirModal()" class="btn-criar">➕</button>
 
             <p>Acompanhe todos os seus recordes pessoais e compare com outros atletas</p>
 
@@ -136,7 +136,7 @@
 </main>
 
 <!-- MODAL RECORDES -->
-<div id="modalEvento" class="modal">
+<div id="modalEvento" id = "modal">
 
     <div class="modal-content">
 
@@ -178,7 +178,7 @@
 
             <div class="botoes-modal">
 
-                <button id="cancelar" type="button">Cancelar</button>
+                <button onclick="fecharModal()" id="cancelar" type="button">Cancelar</button>
 
                 <button id="publicar" type="submit">
                     Adicionar Recorde
@@ -191,6 +191,31 @@
     </div>
 
 </div>
+   <script>
+        const modal = document.getElementById("modalEvento");
 
+        document.getElementById("abrirModal")
+            .addEventListener("click", () => {
+                modal.classList.add("ativo");
+            });
+
+        document.getElementById("fecharModal")
+            .addEventListener("click", () => {
+                modal.classList.remove("ativo");
+            });
+
+        document.getElementById("cancelar")
+            .addEventListener("click", () => {
+                modal.classList.remove("ativo");
+            });
+
+        modal.addEventListener("click", (e) => {
+            if(e.target === modal){
+                modal.classList.remove("ativo");
+            }
+        });
+    </script>
+
+    <script src="perfil2.js"></script>
 </body>
 </html>
