@@ -5,3 +5,4 @@ function abrirModal() {
 function fecharModal() {
     document.getElementById("modal").style.display = "none";
 }
+console.log(localStorage.getItem("usuarioLogado"))

@@ -1,8 +1,28 @@
-import { usuarios } from "../inicial/inicial.js";
+import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
 
-const formulario = document.getElementById(".form-group");
-formulario.addEventListener("submit", (event) => {
-    if (formulario.senha.value !== formulario.confirmarSenha.value) {
-        alert('As senhas não coincidem!')
+const usuarios = loadFromLocalStorage("cadastro");
+
+const senhaLogin = document.querySelector("#senha");
+const emailLogin = document.querySelector("#email");
+
+// percorre cadastro
+
+// compara email e senha com o que foi digitado
+
+
+const formulario = document.querySelector('form');
+formulario.addEventListener('submit', (event) => {
+    event.preventDefault();
+    
+    // carrega usuarios do ls
+    const logado = usuarios.find(usuario => usuario.email === emailLogin.value && usuario.senha === senhaLogin.value);
+    console.log(logado)
+    if(logado !== undefined) { 
+        saveToLocalStorage("usuarioLogado", logado);
+        //toast de sucesso
+        location.href = "../perfil2/perfil2.html";
+    } else {
+        formulario.reset();
+        //toast de erro
     }
-})
+});

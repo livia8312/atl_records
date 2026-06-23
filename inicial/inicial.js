@@ -1,7 +1,3 @@
-// export let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-
-
 export function saveToLocalStorage(key, data) {
     const json = JSON.stringify(data);
     localStorage.setItem(key, json);

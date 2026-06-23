@@ -8,7 +8,7 @@
     <title>Dashboard - AtlRecords</title>
 
     <link rel="stylesheet" href="perfil2.css">
-    <script src="perfil2.js" defer></script>
+    <script src="perfil2.js" defer type="module"></script>
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -191,31 +191,5 @@
     </div>
 
 </div>
-   <script>
-        const modal = document.getElementById("modalEvento");
-
-        document.getElementById("abrirModal")
-            .addEventListener("click", () => {
-                modal.classList.add("ativo");
-            });
-
-        document.getElementById("fecharModal")
-            .addEventListener("click", () => {
-                modal.classList.remove("ativo");
-            });
-
-        document.getElementById("cancelar")
-            .addEventListener("click", () => {
-                modal.classList.remove("ativo");
-            });
-
-        modal.addEventListener("click", (e) => {
-            if(e.target === modal){
-                modal.classList.remove("ativo");
-            }
-        });
-    </script>
-
-    <script src="perfil2.js"></script>
 </body>
 </html>
