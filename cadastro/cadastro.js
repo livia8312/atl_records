@@ -5,9 +5,16 @@ const usuarios = loadFromLocalStorage("cadastro");
 
 const formulario = document.querySelector('form')
 formulario.addEventListener('submit', (event) => {
+    const usuarios = loadFromLocalStorage('cadastro');
 
     if (formulario.senha.value !== formulario.confirmarSenha.value) {
-        alert('As senhas não coincidem!')
+        alert('As senhas não coincidem!');
+        return;
+    }
+
+    if(usuarios.find(user => user.email === formulario.email.value)) {
+        alert('Usuário já cadastrado');
+        return;
     }
 
     event.preventDefault()
@@ -26,5 +33,9 @@ formulario.addEventListener('submit', (event) => {
 
     console.log(localStorage.getItem("usuarios"))
 
-    window.location.href = "../perfil2/perfil2.html"
+    /* queryParam 'primeiroAcesso' pra fazer a validação de exibição da mensagem de boas vindas.
+        * ex: primeiroAcesso == true \ Bem vindo, fulano!
+        * ex: primeiroAcesso == undefined | Bem vindo de volta, fulano!
+    */
+    window.location.href = "../perfil2/perfil2.html?primeiroAcesso=true"
 })
