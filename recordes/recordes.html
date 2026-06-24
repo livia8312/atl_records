@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Recordes</title>
+    <link rel="stylesheet" href="recordes.css">
+    <script src="recordes.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="top-bar"></div>
+
+    <div class="header-content">
+        <div class="left">
+            <button class="back">←</button>
+
+            <div class="title-box">
+                <div class="icon">🏆</div>
+                <div>
+                    <h1>Meus Recordes</h1>
+                    <p>6 registros • 4 recordes pessoais</p>
+                </div>
+            </div>
+        </div>
+
+        <button id="abrirModal">+ Adicionar</button>
+    </div>
+</header>
+
+<main>
+
+    <section class="stats">
+
+        <div class="card total">
+            <p>🏆 Total</p>
+            <h2>0</h2>
+        </div>
+
+        <div class="card corrida">
+            <p>🏃 Corridas</p>
+            <h2>0</h2>
+        </div>
+
+        <div class="card salto">
+            <p>🤸 Saltos</p>
+            <h2>0</h2>
+        </div>
+
+        <div class="card arremesso">
+            <p>🥏 Arremessos</p>
+            <h2>0</h2>
+        </div>
+
+    </section>
+</main>
+<!-- MODAL RECORDES -->
+<div id="modalEvento">
+
+    <div class="modal-content">
+
+        <button id="fecharModal" class="fechar">✕</button>
+
+        <h2>Adicionar recorde</h2>
+
+        <form>
+
+            <label>Modalidade*</label>
+
+            <select>
+                <option>100m Rasos</option>
+                <option>200m Rasos</option>
+                <option>400m Rasos</option>
+                <option>800m</option>
+                <option>1500m</option>
+                <option>Salto em Altura</option>
+                <option>Salto em Distância</option>
+                <option>Salto Triplo</option>
+                <option>Arremesso de Peso</option>
+                <option>Arremesso de Disco</option>
+                <option>Arremesso de Dardo</option>
+            </select>
+
+            <div class="linha">
+
+                <div>
+                    <label>Resultado *</label>
+                    <input type="text">
+                </div>
+
+                <div>
+                    <label>Data *</label>
+                    <input type="date">
+                </div>
+
+            </div>
+
+            <div class="botoes-modal">
+
+                <button  id="cancelar" type="button">Cancelar</button>
+
+                <button id="publicar" type="submit">
+                    Adicionar Recorde
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+</body>
+</html>
