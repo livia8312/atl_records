@@ -15,7 +15,6 @@ function criarEvento(evento){
     exibirContagem();
 }
 
-
 function exibirEventos(){
     document.querySelector("#corridas").innerHTML = '';
     document.querySelector("#saltos").innerHTML = '';
