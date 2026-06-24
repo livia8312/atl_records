@@ -4,13 +4,16 @@ const dataEvento = document.querySelector("#dataEvento");
 const localEvento = document.querySelector("#localEvento");
 const descricaoEvento = document.querySelector("#descricaoEvento");
 
-const eventos = [];
+const eventos = JSON.parse(localStorage.getItem("eventos")) || [];
+exibirEventos();
+exibirContagem();
 
 function criarEvento(evento){
     eventos.push(evento);
 
-    exibirEventos();
+    localStorage.setItem("eventos", JSON.stringify(eventos));
 
+    exibirEventos();
     fecharModal();
     exibirContagem();
 }
@@ -20,7 +23,7 @@ function exibirEventos(){
     document.querySelector("#saltos").innerHTML = '';
     document.querySelector("#arremessos").innerHTML = '';
 
-    eventos.forEach((eve)=>{
+    eventos.forEach((eve, index)=>{
         const div = document.createElement("div");
 
         div.classList.add("evento");
@@ -31,6 +34,12 @@ function exibirEventos(){
             <p>Data: ${eve.data}</p>
             <p>Local: ${eve.local}</p>
             <p>Descrição: ${eve.descricao}</p>
+            <p>Inscritos: ${eve.inscritos || 0}</p>
+            <div class="acoes">
+        <button class="btn-excluir" onclick="excluirEvento(${index})">
+            Excluir
+        </button>
+    </div>  
         `;
 
 
@@ -60,7 +69,19 @@ function exibirContagem() {
     totalS.textContent = eventos.filter(e => e.categoria === 'Saltos').length
     totalA.textContent = eventos.filter(e => e.categoria === 'Arremessos').length
 }
+function excluirEvento(index){
 
+    const confirmar = confirm("Deseja excluir este evento?");
+
+    if(confirmar){
+        eventos.splice(index, 1);
+
+        localStorage.setItem("eventos", JSON.stringify(eventos));
+
+        exibirEventos();
+        exibirContagem();
+    }
+}
 const modal = document.getElementById("modalEvento");
 
 document.getElementById("abrirModal")
@@ -92,7 +113,8 @@ document.getElementById("formEvento")
             categoria:categoriaEvento.value,
             data:dataEvento.value,
             local:localEvento.value,
-            descricao:descricaoEvento.value
+            descricao:descricaoEvento.value,
+            inscritos: 0
         };
 
         nomeEvento.value = '';
