@@ -8,7 +8,106 @@
 body{
     background:#f8f9fb;
 }
+.cards-melhorias{
+    max-width:1100px;
+    margin:40px auto;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+}
 
+.card-melhoria{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 2px 12px rgba(0,0,0,.08);
+}
+
+.card-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.card-topo h2{
+    color:#0d2a52;
+    margin-bottom:5px;
+}
+
+.card-topo p{
+    color:#8b98a8;
+    font-size:14px;
+}
+
+.card-topo select{
+    padding:10px 15px;
+    border-radius:12px;
+    border:2px solid #ddd;
+    background:white;
+    cursor:pointer;
+}
+
+.estatisticas{
+    display:flex;
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.stat{
+    flex:1;
+    background:#f7f7f7;
+    border-radius:14px;
+    text-align:center;
+    padding:15px;
+}
+
+.stat span{
+    font-size:13px;
+    color:#8b98a8;
+}
+
+.stat h3{
+    margin-top:8px;
+    color:#0d2a52;
+}
+
+.verde{
+    color:#0ab35b !important;
+}
+
+.grafico{
+    height:180px;
+    border-top:1px dashed #ddd;
+    margin-top:15px;
+    position:relative;
+}
+
+.linha{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 150'%3E%3Cpolyline fill='none' stroke='%23666666' stroke-width='4' points='10,40 80,70 150,90 220,120 290,100'/%3E%3C/svg%3E");
+    background-size:100% 100%;
+}
+
+.corridas{
+    border-top:4px solid #0d2a52;
+}
+
+.arremessos{
+    border-top:4px solid #d69200;
+}
+
+.saltos{
+    border-top:4px solid #8d3dff;
+}
+
+@media(max-width:1000px){
+    .cards-melhorias{
+        grid-template-columns:1fr;
+    }
+}
 .top-bar{
     height:6px;
     background:#d69200;
