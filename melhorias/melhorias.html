@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="grafico.js"></script>
     <script src="melhorias.js" defer></script>
     <link rel="stylesheet" href="melhorias.css">
 </head>
@@ -40,11 +41,15 @@
         <div class="card-topo">
             <div>
                 <h2>🏃 Corridas</h2>
-                <p>Jan – Jun 2026</p>
+                <p>Jan - Jun 2026</p>
             </div>
 
             <select>
-                <option>100m Rasos</option>
+                <option value="100">100m Rasos</option>
+                <option value="200">200m Rasos</option>
+                <option value="400">400m Rasos</option>
+                <option value="800">800m</option>
+                <option value="1500">1500m</option>
             </select>
         </div>
 
@@ -65,8 +70,7 @@
             </div>
         </div>
 
-        <div class="grafico">
-            <div class="linha"></div>
+        <div class="grafico" id="corrida">
         </div>
     </div>
 
@@ -78,7 +82,9 @@
             </div>
 
             <select>
-                <option>Arremesso de Peso</option>
+                <option value="peso">Arremesso de Peso</option>
+                <option value="disco">Arremesso de Disco</option>
+                <option value="dardo">Arremesso de Dardo</option>
             </select>
         </div>
 
@@ -99,8 +105,7 @@
             </div>
         </div>
 
-        <div class="grafico">
-            <div class="linha"></div>
+        <div class="grafico" id="arremesso">
         </div>
     </div>
 
@@ -112,7 +117,9 @@
             </div>
 
             <select>
-                <option>Salto em Distância</option>
+                <option value="distancia">Salto em Distância</option>
+                <option value="altura">Salto em altura</option>
+                <option value="triplo">Salto em triplo</option>
             </select>
         </div>
 
@@ -133,8 +140,7 @@
             </div>
         </div>
 
-        <div class="grafico">
-            <div class="linha"></div>
+        <div class="grafico" id="salto">
         </div>
     </div>
 
