@@ -106,7 +106,7 @@ modal.addEventListener("click", (e) => {
     }
 });
 
-document.getElementById("formEvento")
+document.querySelector("#formEvento")
     .addEventListener("submit", (e) => {
         e.preventDefault();
         let evento = {
@@ -117,7 +117,7 @@ document.getElementById("formEvento")
             descricao:descricaoEvento.value,
             inscritos: 0
         };
-
+    
         nomeEvento.value = '';
         categoriaEvento.value = '';
         dataEvento.value = '';
