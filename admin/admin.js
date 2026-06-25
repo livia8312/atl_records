@@ -33,6 +33,7 @@ function exibirEventos(){
             <p>Categoria: ${eve.categoria}</p>
             <p>Data: ${eve.data}</p>
             <p>Local: ${eve.local}</p>
+            
             <p>Descrição: ${eve.descricao}</p>
             <p>Inscritos: ${eve.inscritos || 0}</p>
             <div class="acoes">

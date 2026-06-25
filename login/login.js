@@ -16,7 +16,6 @@ formulario.addEventListener('submit', (event) => {
     
     // carrega usuarios do ls
     const logado = usuarios.find(usuario => usuario.email === emailLogin.value && usuario.senha === senhaLogin.value);
-    console.log(logado)
     if(logado !== undefined) { 
         saveToLocalStorage("usuarioLogado", logado);
         //toast de sucesso
