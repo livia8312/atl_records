@@ -1,3 +1,5 @@
+import { loadFromLocalStorage } from "../inicial/inicial.js";
+
 const text = '#797979';
 const lines = '#1e1e1e'
 
@@ -196,18 +198,72 @@ function graficoBar(_div, _label, _valores, _cor, _medida) {
     });
 }
 
-//corridas
-graficoLine('corrida', ['23/4', '38/4', '10/5', '15/5', '20/5', '25/5', '30/5'], [200, 100, 400, 310, 250, 102, 150], '#0d2a52', '#0b2242', 's')
+let records = loadFromLocalStorage('records');
 
-//arremesso
-graficoLine('arremesso', ['23/4', '38/4', '10/5', '15/5', '20/5', '25/5', '30/5'], [10, 8, 3, 8, 5, 10, 12], '#d69200', '#9b6d09', 'm')
+const modalidades = {
+    corrida: [],
+    salto: [],
+    arremesso: []
+};
 
-//salto
-graficoLine('salto', ['23/4', '38/4', '10/5', '15/5', '20/5', '25/5', '30/5'], [1.2, 1.3, 1.1, 1.4, 1.2, 1.3, 1.5], '#8d3dff', '#6a28cc', 'm')
+const modalidadesCorrida = ['100', '200', '400', '800', '1500'];
+const modalidadesSalto = ['altura', 'distancia', 'triplo'];
+const modalidadesArremesso = ['peso', 'disco', 'dardo'];
 
-document.querySelectorAll('.card-topo select').forEach((select) => {
-    select.addEventListener('change', (event) => {
-        const selectedValue = event.target.value;
-        
-    })
+records.forEach(r => {
+    if (modalidadesCorrida.includes(r.modalidade)) {
+        modalidades.corrida.push(r);
+    } else if (modalidadesSalto.includes(r.modalidade)) {
+        modalidades.salto.push(r);
+    } else if (modalidadesArremesso.includes(r.modalidade)) {
+        modalidades.arremesso.push(r);
+    }
 });
+
+const cores = {
+    corrida: {
+        linha: '#0d2a52',
+        fundo: '#0b2242',
+        unidade: 's'
+    },
+    salto: {
+        linha: '#8d3dff',
+        fundo: '#6a28cc',
+        unidade: 'm'
+    },
+    arremesso: {
+        linha: '#d69200',
+        fundo: '#9b6d09',
+        unidade: 'm'
+    }
+};
+
+document.querySelectorAll('.card-topo select').forEach(select => {
+    const type = select.parentElement.parentElement.classList[1];
+    console.log(type)
+
+    desenharGrafico(type);
+
+    select.addEventListener('change', () => {
+        desenharGrafico(type);
+    });
+});
+
+function desenharGrafico(type) {
+    const card = document.querySelector(`.${type}`);
+    const select = card.querySelector('select');
+
+    const dados = modalidades[type]
+    .filter(r => r.modalidade === select.value)
+    .sort((a, b) => new Date(a.data) - new Date(b.data));
+
+    card.querySelector('.grafico').innerHTML = '';
+
+    graficoLine(
+        type,
+        dados.map(r => r.data),
+        dados.map(r => r.resultado),
+        cores[type].linha,
+        cores[type].fundo,
+    );
+}

@@ -100,15 +100,15 @@ body{
 }
 
 /* CORES DOS CARDS */
-.corridas{
+.corrida{
     border-top:4px solid #0d2a52;
 }
 
-.arremessos{
+.arremesso{
     border-top:4px solid #d69200;
 }
 
-.saltos{
+.salto{
     border-top:4px solid #8d3dff;
 }
 
