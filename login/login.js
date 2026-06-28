@@ -1,3 +1,4 @@
+import { showToast } from './toast.js';
 import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
 
 const usuarios = loadFromLocalStorage("cadastro");
@@ -18,10 +19,10 @@ formulario.addEventListener('submit', (event) => {
     const logado = usuarios.find(usuario => usuario.email === emailLogin.value && usuario.senha === senhaLogin.value);
     if(logado !== undefined) { 
         saveToLocalStorage("usuarioLogado", logado);
-        //toast de sucesso
+        showToast("Login realizado com sucesso!", "success");
         location.href = "../perfil2/perfil2.html";
     } else {
         formulario.reset();
-        //toast de erro
+        showToast("Email ou senha incorretos!", "error");
     }
 });
