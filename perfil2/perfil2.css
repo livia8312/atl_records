@@ -296,7 +296,7 @@ body{
     font-weight:600;
     cursor:pointer;
 }
-.modal{
+#modalEvento{
     display:none;
 
     position:fixed;

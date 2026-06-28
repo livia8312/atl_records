@@ -1,4 +1,7 @@
 import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
+import { verificarConquistas } from "../conquistas/sistemaConquistas.js";
+
+
 console.log('perfil2.js carregado');
 const stringDeBuscaDaUrl = window.location.search; // procura o parametro de busca da url e guarda isso como string;
  
@@ -15,6 +18,9 @@ const usuarioLogado = loadFromLocalStorage('usuarioLogado');
 document.querySelector('#nome-usuario').textContent = usuarioLogado.nome;
 
 document.querySelector('#nome-usuario-cabecario').textContent = usuarioLogado.nome;
+
+document.querySelector(".stats .orange h2").textContent = usuarioLogado.records ? usuarioLogado.records.length : 0;
+
 
 // atualiza o card de conquistas
 const totalConquistas = usuarioLogado.conquistas ? usuarioLogado.conquistas.length: 0;
@@ -49,3 +55,52 @@ function abrirModal() {
 function fecharModal() {
     document.getElementById("modalEvento").style.display = "none";
 }
+
+function adicionarRecord(OBJ) {
+    console.log('ssada')
+    if (['100', '200', '400'].includes(OBJ.modalidade)) {
+        OBJ.unidade = 'Seg';
+    } else if (['800', '1500'].includes(OBJ.modalidade)) {
+        OBJ.unidade = 'Min';
+    } else {
+        OBJ.unidade = 'M';
+    }
+
+    const usuarioLogado = loadFromLocalStorage('usuarioLogado');
+    if (!usuarioLogado) return;
+
+    if (!usuarioLogado.records) {
+        usuarioLogado.records = [];
+    }
+
+    usuarioLogado.records.push(OBJ);
+    saveToLocalStorage('usuarioLogado', usuarioLogado);
+
+    const cadastro = loadFromLocalStorage('cadastro') || [];
+
+    const indice = cadastro.findIndex(usuario =>
+        usuario.email === usuarioLogado.email
+    );
+
+    if (indice !== -1) {
+        cadastro[indice] = usuarioLogado;
+        saveToLocalStorage('cadastro', cadastro);
+    }
+
+    verificarConquistas(usuarioLogado);
+}
+
+const registro = document.querySelector('#modalEvento');
+
+registro.addEventListener("submit", (ev) => {
+    ev.preventDefault();
+
+    adicionarRecord({
+        modalidade: document.querySelector('#idDoInputModalidade').value,
+        resultado: document.querySelector('#idDoInputResultado').value,
+        data: document.querySelector('#idDoInputData').value,
+        unidade: null
+    });
+
+    fecharModal();
+});
