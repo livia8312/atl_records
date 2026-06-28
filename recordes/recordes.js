@@ -6,18 +6,18 @@ const arremessosList = document.getElementById("arremessosList");
 
 
 function exibirRecords() {
-    const records = loadFromLocalStorage('records')
+    const usuarioLogado = loadFromLocalStorage('usuarioLogado')
 
     // exibe a contagem
-    document.querySelector('.stats .total h2').textContent = records.length
+    document.querySelector('.stats .total h2').textContent = usuarioLogado.records.length
 
-    let corrida = records.filter(r => ['100', '200', '400', '800', '1500'].includes(r.modalidade))
+    let corrida = usuarioLogado.records.filter(r => ['100', '200', '400', '800', '1500'].includes(r.modalidade))
     document.querySelector('.stats .corrida h2').textContent = corrida.length
 
-    let arremesso = records.filter(r => ['disco', 'dardo', 'peso'].includes(r.modalidade))
+    let arremesso = usuarioLogado.records.filter(r => ['disco', 'dardo', 'peso'].includes(r.modalidade))
     document.querySelector('.stats .arremesso h2').textContent = arremesso.length
 
-    let salto = records.filter(r => ['distancia', 'triplo', 'altura'].includes(r.modalidade))
+    let salto = usuarioLogado.records.filter(r => ['distancia', 'triplo', 'altura'].includes(r.modalidade))
     document.querySelector('.stats .salto h2').textContent = salto.length
 
 
@@ -27,14 +27,14 @@ function exibirRecords() {
     saltosList.innerHTML = "";
     arremessosList.innerHTML = "";
 
-    records.forEach((record, index) => {
+    usuarioLogado.records.forEach((record, index) => {
 
         const div = document.createElement("div");
         div.classList.add("record-item");
 
         div.innerHTML = `
             <strong>${record.modalidade}</strong>
-            <p>${record.resultado}</p>
+            <p>${record.resultado} ${record.unidade}</p>
             <small>${record.data}</small>
         `;
 
@@ -47,7 +47,6 @@ function exibirRecords() {
         }else if(record.modalidade === 'peso' || record.modalidade === 'disco' || record.modalidade === 'dardo'){
             arremessosList.appendChild(div)
             arremessosList.style.display = 'grid';
-
         }
 
     });
@@ -66,9 +65,10 @@ function adicionarRecord(OBJ){
         OBJ.unidade = 'M'
     }
 
-    const records = loadFromLocalStorage('records') || []
-    records.push(OBJ)
-    saveToLocalStorage('records', records)
+    const usuarioLogado = loadFromLocalStorage('usuarioLogado')
+    console.log(usuarioLogado)
+    usuarioLogado.records.push(OBJ)
+    saveToLocalStorage('usuarioLogado', usuarioLogado)
 }
 
 const registro = document.querySelector('#modalEvento');
@@ -108,6 +108,7 @@ modal.addEventListener("click", (e) => {
         fecharModal();
     }
 });
+
 function abrirModal(){
     document.getElementById("modalEvento").style.display="flex";
 }

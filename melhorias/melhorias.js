@@ -224,17 +224,14 @@ const cores = {
     corrida: {
         linha: '#0d2a52',
         fundo: '#0b2242',
-        unidade: 's'
     },
     salto: {
         linha: '#8d3dff',
         fundo: '#6a28cc',
-        unidade: 'm'
     },
     arremesso: {
         linha: '#d69200',
         fundo: '#9b6d09',
-        unidade: 'm'
     }
 };
 
@@ -259,11 +256,21 @@ function desenharGrafico(type) {
 
     card.querySelector('.grafico').innerHTML = '';
 
+    let unidade;
+
+    if(dados[0] !== undefined){
+        unidade = dados[0].unidade
+        console.log(unidade)
+    }else{
+        unidade = '';
+    }
+
     graficoLine(
         type,
         dados.map(r => r.data),
-        dados.map(r => r.resultado),
+        dados.map(r => Number(r.resultado)),
         cores[type].linha,
         cores[type].fundo,
+        unidade
     );
 }

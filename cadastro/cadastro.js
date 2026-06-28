@@ -24,6 +24,7 @@ formulario.addEventListener('submit', (event) => {
         email: formulario.email.value,
         senha: formulario.senha.value,
         confirmarSenha: formulario.confirmar-senha.value,
+        records: [],
     }
 
     usuarios.push(usuario)
