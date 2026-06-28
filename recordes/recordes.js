@@ -5,29 +5,33 @@ const corridasList = document.getElementById("corridasList");
 const saltosList = document.getElementById("saltosList");
 const arremessosList = document.getElementById("arremessosList");
 
-
 function exibirRecords() {
-    const usuarioLogado = loadFromLocalStorage('usuarioLogado')
+    const usuarioLogado = loadFromLocalStorage('usuarioLogado');
 
-    // exibe a contagem
-    document.querySelector('.stats .total h2').textContent = usuarioLogado.records.length
+    if (!usuarioLogado || !usuarioLogado.records) return;
 
-    let corrida = usuarioLogado.records.filter(r => ['100', '200', '400', '800', '1500'].includes(r.modalidade))
-    document.querySelector('.stats .corrida h2').textContent = corrida.length
+    // ===== STATS =====
+    const totalEl = document.querySelector('.stats .total h2');
+    const corridaEl = document.querySelector('.stats .corrida h2');
+    const arremessoEl = document.querySelector('.stats .arremesso h2');
+    const saltoEl = document.querySelector('.stats .salto h2');
 
-    let arremesso = usuarioLogado.records.filter(r => ['disco', 'dardo', 'peso'].includes(r.modalidade))
-    document.querySelector('.stats .arremesso h2').textContent = arremesso.length
+    let corrida = usuarioLogado.records.filter(r => ['100', '200', '400', '800', '1500'].includes(r.modalidade));
+    let arremesso = usuarioLogado.records.filter(r => ['disco', 'dardo', 'peso'].includes(r.modalidade));
+    let salto = usuarioLogado.records.filter(r => ['distancia', 'triplo', 'altura'].includes(r.modalidade));
 
-    let salto = usuarioLogado.records.filter(r => ['distancia', 'triplo', 'altura'].includes(r.modalidade))
-    document.querySelector('.stats .salto h2').textContent = salto.length
+    if (totalEl) totalEl.textContent = usuarioLogado.records.length;
+    if (corridaEl) corridaEl.textContent = corrida.length;
+    if (arremessoEl) arremessoEl.textContent = arremesso.length;
+    if (saltoEl) saltoEl.textContent = salto.length;
 
-    // limpa tudo antes
-    corridasList.innerHTML = "";
-    saltosList.innerHTML = "";
-    arremessosList.innerHTML = "";
+    // ===== LIMPAR LISTAS =====
+    if (corridasList) corridasList.innerHTML = "";
+    if (saltosList) saltosList.innerHTML = "";
+    if (arremessosList) arremessosList.innerHTML = "";
 
+    // ===== RENDER =====
     usuarioLogado.records.forEach((record) => {
-
         const div = document.createElement("div");
         div.classList.add("record-item");
 
@@ -38,41 +42,44 @@ function exibirRecords() {
         `;
 
         if (['100', '200', '400', '800', '1500'].includes(record.modalidade)) {
-            corridasList.appendChild(div)
-            corridasList.style.display = 'grid';
+            if (corridasList) {
+                corridasList.appendChild(div);
+                corridasList.style.display = 'grid';
+            }
         } else if (['altura', 'distancia', 'triplo'].includes(record.modalidade)) {
-            saltosList.appendChild(div)
-            saltosList.style.display = 'grid';
+            if (saltosList) {
+                saltosList.appendChild(div);
+                saltosList.style.display = 'grid';
+            }
         } else if (['peso', 'disco', 'dardo'].includes(record.modalidade)) {
-            arremessosList.appendChild(div)
-            arremessosList.style.display = 'grid';
+            if (arremessosList) {
+                arremessosList.appendChild(div);
+                arremessosList.style.display = 'grid';
+            }
         }
-
     });
-
-    return fecharModal();
 }
 
 function adicionarRecord(OBJ) {
-
     if (['100', '200', '400'].includes(OBJ.modalidade)) {
-        OBJ.unidade = 'Seg'
+        OBJ.unidade = 'Seg';
     } else if (['800', '1500'].includes(OBJ.modalidade)) {
-        OBJ.unidade = 'Min'
+        OBJ.unidade = 'Min';
     } else {
-        OBJ.unidade = 'M'
+        OBJ.unidade = 'M';
     }
 
     const usuarioLogado = loadFromLocalStorage('usuarioLogado');
+    if (!usuarioLogado) return;
 
-    // adiciona novo registro
+    if (!usuarioLogado.records) {
+        usuarioLogado.records = [];
+    }
+
     usuarioLogado.records.push(OBJ);
-
-    // atualiza o usuario logado
     saveToLocalStorage('usuarioLogado', usuarioLogado);
 
-    // atualiza o usario no cadastro
-    const cadastro = loadFromLocalStorage('cadastro');
+    const cadastro = loadFromLocalStorage('cadastro') || [];
 
     const indice = cadastro.findIndex(usuario =>
         usuario.email === usuarioLogado.email
@@ -82,54 +89,71 @@ function adicionarRecord(OBJ) {
         cadastro[indice] = usuarioLogado;
         saveToLocalStorage('cadastro', cadastro);
     }
-    // verifica se o usuario desbloqueou alguma conquista
+
     verificarConquistas(usuarioLogado);
 }
 
+// ===== EVENTOS =====
 const registro = document.querySelector('#modalEvento');
 
-registro.addEventListener("submit", (ev) => {
-    ev.preventDefault();
+if (registro) {
+    registro.addEventListener("submit", (ev) => {
+        ev.preventDefault();
 
-    adicionarRecord({
-        modalidade: document.querySelector('#idDoInputModalidade').value,
-        resultado: document.querySelector('#idDoInputResultado').value,
-        data: document.querySelector('#idDoInputData').value,
-        unidade: null
+        const modalidade = document.querySelector('#idDoInputModalidade')?.value;
+        const resultado = document.querySelector('#idDoInputResultado')?.value;
+        const data = document.querySelector('#idDoInputData')?.value;
+
+        if (!modalidade || !resultado || !data) return;
+
+        adicionarRecord({
+            modalidade,
+            resultado,
+            data,
+            unidade: null
+        });
+
+        exibirRecords();
+        fecharModal();
     });
+}
 
-    exibirRecords()
-});
-
+// ===== MODAL =====
 const modal = document.getElementById("modalEvento");
 
-document.getElementById("abrirModal")
-    .addEventListener("click", () => {
-        abrirModal();
-    });
+const btnAbrir = document.getElementById("abrirModal");
+const btnFechar = document.getElementById("fecharModal");
+const btnCancelar = document.getElementById("cancelar");
 
-document.getElementById("fecharModal")
-    .addEventListener("click", () => {
-        fecharModal();
-    });
+if (btnAbrir) {
+    btnAbrir.addEventListener("click", abrirModal);
+}
 
-document.getElementById("cancelar")
-    .addEventListener("click", () => {
-        fecharModal();
-    });
+if (btnFechar) {
+    btnFechar.addEventListener("click", fecharModal);
+}
 
-modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-        fecharModal();
-    }
-});
+if (btnCancelar) {
+    btnCancelar.addEventListener("click", fecharModal);
+}
+
+if (modal) {
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            fecharModal();
+        }
+    });
+}
 
 function abrirModal() {
-    document.getElementById("modalEvento").style.display = "flex";
+    if (modal) modal.style.display = "flex";
 }
 
 function fecharModal() {
-    document.getElementById("modalEvento").style.display = "none";
+    if (modal) modal.style.display = "none";
 }
 
-exibirRecords();
+// ===== EXECUÇÃO SEGURA =====
+if (document.querySelector('.stats')) {
+    exibirRecords();
+}

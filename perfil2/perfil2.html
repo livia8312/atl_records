@@ -7,8 +7,9 @@
 
     <title>Dashboard - AtlRecords</title>
 
-    <link rel="stylesheet" href="perfil2.css">
     <script src="perfil2.js" defer type="module"></script>
+
+    <link rel="stylesheet" href="perfil2.css">
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -114,7 +115,7 @@
 </main>
 
 <!-- MODAL RECORDES -->
-<div id="modalEvento" class="modal">
+<div id="modalEvento">
 
     <div class="modal-content">
 
@@ -126,30 +127,31 @@
 
             <label>Modalidade*</label>
 
-            <select>
-                <option>100m Rasos</option>
-                <option>200m Rasos</option>
-                <option>400m Rasos</option>
-                <option>800m</option>
-                <option>1500m</option>
-                <option>Salto em Altura</option>
-                <option>Salto em Distância</option>
-                <option>Salto Triplo</option>
-                <option>Arremesso de Peso</option>
-                <option>Arremesso de Disco</option>
-                <option>Arremesso de Dardo</option>
+            <select name="modalidade" id="idDoInputModalidade">
+                <option value="">Modalidade</option>
+                <option value="100">100m Rasos</option>
+                <option value="200">200m Rasos</option>
+                <option value="400">400m Rasos</option>
+                <option value="800">800m</option>
+                <option value="1500">1500m</option>
+                <option value="altura">Salto em Altura</option>
+                <option value="distancia">Salto em Distância</option>
+                <option value="triplo">Salto Triplo</option>
+                <option value="peso">Arremesso de Peso</option>
+                <option value="disco">Arremesso de Disco</option>
+                <option value="dardo">Arremesso de Dardo</option>
             </select>
 
             <div class="linha">
 
                 <div>
                     <label>Resultado *</label>
-                    <input type="text">
+                    <input type="number" step="any" min="0" max="" placeholder="0.0" name="resultado" id="idDoInputResultado">
                 </div>
 
                 <div>
                     <label>Data *</label>
-                    <input type="date">
+                    <input type="date" name="data" id="idDoInputData">
                 </div>
 
             </div>

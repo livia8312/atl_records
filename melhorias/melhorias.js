@@ -198,7 +198,8 @@ function graficoBar(_div, _label, _valores, _cor, _medida) {
     });
 }
 
-let records = loadFromLocalStorage('records');
+let records = loadFromLocalStorage('usuarioLogado').records;
+console.log(records)
 
 const modalidades = {
     corrida: [],
@@ -260,7 +261,6 @@ function desenharGrafico(type) {
 
     if(dados[0] !== undefined){
         unidade = dados[0].unidade
-        console.log(unidade)
     }else{
         unidade = '';
     }
