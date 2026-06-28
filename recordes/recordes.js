@@ -1,4 +1,5 @@
 import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
+import { verificarConquistas } from "../conquistas/sistemaConquistas.js";
 
 const corridasList = document.getElementById("corridasList");
 const saltosList = document.getElementById("saltosList");
@@ -20,14 +21,12 @@ function exibirRecords() {
     let salto = usuarioLogado.records.filter(r => ['distancia', 'triplo', 'altura'].includes(r.modalidade))
     document.querySelector('.stats .salto h2').textContent = salto.length
 
-
-    // limpa tudo antes (igual você fez nos eventos)
-    
+    // limpa tudo antes
     corridasList.innerHTML = "";
     saltosList.innerHTML = "";
     arremessosList.innerHTML = "";
 
-    usuarioLogado.records.forEach((record, index) => {
+    usuarioLogado.records.forEach((record) => {
 
         const div = document.createElement("div");
         div.classList.add("record-item");
@@ -38,13 +37,13 @@ function exibirRecords() {
             <small>${record.data}</small>
         `;
 
-        if(record.modalidade === '100' || record.modalidade === '200' || record.modalidade === '400' || record.modalidade === '800' || record.modalidade === '1500'){
+        if (['100', '200', '400', '800', '1500'].includes(record.modalidade)) {
             corridasList.appendChild(div)
             corridasList.style.display = 'grid';
-        }else if(record.modalidade === 'altura' || record.modalidade === 'distancia' || record.modalidade === 'triplo'){
+        } else if (['altura', 'distancia', 'triplo'].includes(record.modalidade)) {
             saltosList.appendChild(div)
             saltosList.style.display = 'grid';
-        }else if(record.modalidade === 'peso' || record.modalidade === 'disco' || record.modalidade === 'dardo'){
+        } else if (['peso', 'disco', 'dardo'].includes(record.modalidade)) {
             arremessosList.appendChild(div)
             arremessosList.style.display = 'grid';
         }
@@ -54,35 +53,51 @@ function exibirRecords() {
     return fecharModal();
 }
 
-function adicionarRecord(OBJ){
-    // Agora o OBJ receberá os dados reais dos inputs
+function adicionarRecord(OBJ) {
 
     if (['100', '200', '400'].includes(OBJ.modalidade)) {
         OBJ.unidade = 'Seg'
-    }else if(['800', '1500'].includes(OBJ.modalidade)) {
+    } else if (['800', '1500'].includes(OBJ.modalidade)) {
         OBJ.unidade = 'Min'
-    }else {
+    } else {
         OBJ.unidade = 'M'
     }
 
-    const usuarioLogado = loadFromLocalStorage('usuarioLogado')
-    console.log(usuarioLogado)
-    usuarioLogado.records.push(OBJ)
-    saveToLocalStorage('usuarioLogado', usuarioLogado)
+    const usuarioLogado = loadFromLocalStorage('usuarioLogado');
+
+    // adiciona novo registro
+    usuarioLogado.records.push(OBJ);
+
+    // atualiza o usuario logado
+    saveToLocalStorage('usuarioLogado', usuarioLogado);
+
+    // atualiza o usario no cadastro
+    const cadastro = loadFromLocalStorage('cadastro');
+
+    const indice = cadastro.findIndex(usuario =>
+        usuario.email === usuarioLogado.email
+    );
+
+    if (indice !== -1) {
+        cadastro[indice] = usuarioLogado;
+        saveToLocalStorage('cadastro', cadastro);
+    }
+    // verifica se o usuario desbloqueou alguma conquista
+    verificarConquistas(usuarioLogado);
 }
 
 const registro = document.querySelector('#modalEvento');
 
 registro.addEventListener("submit", (ev) => {
-    ev.preventDefault(); // Impede a página de recarregar
-    
-    // Captura os valores corretos usando o .value de cada input/select
+    ev.preventDefault();
+
     adicionarRecord({
-        modalidade: document.querySelector('#idDoInputModalidade').value, 
+        modalidade: document.querySelector('#idDoInputModalidade').value,
         resultado: document.querySelector('#idDoInputResultado').value,
         data: document.querySelector('#idDoInputData').value,
         unidade: null
     });
+
     exibirRecords()
 });
 
@@ -104,17 +119,17 @@ document.getElementById("cancelar")
     });
 
 modal.addEventListener("click", (e) => {
-    if(e.target === modal){
+    if (e.target === modal) {
         fecharModal();
     }
 });
 
-function abrirModal(){
-    document.getElementById("modalEvento").style.display="flex";
+function abrirModal() {
+    document.getElementById("modalEvento").style.display = "flex";
 }
 
-function fecharModal(){
-    document.getElementById("modalEvento").style.display="none";
-};
+function fecharModal() {
+    document.getElementById("modalEvento").style.display = "none";
+}
 
-exibirRecords()
+exibirRecords();

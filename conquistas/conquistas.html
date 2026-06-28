@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas Conquistas</title>
     <link rel="stylesheet" href="conquistas.css">
+    <script src="conquistas.js" type="module"></script>
 </head>
 <body>
 
@@ -15,7 +16,7 @@
 
         <div class="left">
 
-            <button class="back">←</button>
+            <button class="back"><a href="../perfil2/perfil2.html">←</a></button>
 
             <div class="title-box">
 
@@ -38,145 +39,57 @@
 <main>
 
     <section class="progresso-geral">
-<h1>Progresso Geral</h1>
+
+        <div class="info-progresso">
+
+            <div>
+
+                <h2>Progresso Geral</h2>
+
+                <p>
+                    Você está evoluindo muito bem!
+                </p>
+
+            </div>
+
+            <h1 id="porcentagemConquistas">
+                0%
+            </h1>
+
+        </div>
+
+        <div class="barra">
+
+            <div
+                class="preenchimento"
+                id="barraConquistas">
+
+            </div>
+
+        </div>
+
+        <div class="niveis">
+
+            <span class="bronze-tag">
+                Bronze
+            </span>
+
+            <span class="prata-tag">
+                Prata
+            </span>
+
+            <span class="ouro-tag">
+                Ouro
+            </span>
+
+            <span class="diamante-tag">
+                Diamante
+            </span>
+
+        </div>
+
     </section>
-    <section class="conquistas">
-
-        <!-- DESBLOQUEADAS -->
-
-        <div class="conquista bronze">
-
-            <div class="icone">⚡</div>
-
-            <h3>Primeiro Passo</h3>
-
-            <p>
-                Registre seu primeiro recorde na plataforma.
-            </p>
-
-            <div class="footer">
-
-                <span>⭐ Geral</span>
-
-                <span class="data">
-                    10/05/2026
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="conquista prata">
-
-            <div class="icone">🔥</div>
-
-            <h3>Velocista</h3>
-
-            <p>
-                Registre um tempo abaixo de 12s nos 100m.
-            </p>
-
-            <div class="footer">
-
-                <span>🏃 Corridas</span>
-
-                <span class="data">
-                    10/05/2026
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="conquista ouro">
-
-            <div class="icone">⭐</div>
-
-            <h3>Saltador de Elite</h3>
-
-            <p>
-                Registre um salto em altura acima de 1.80m.
-            </p>
-
-            <div class="footer">
-
-                <span>🤸 Saltos</span>
-
-                <span class="data">
-                    01/05/2026
-                </span>
-
-            </div>
-
-        </div>
-
-        <!-- BLOQUEADAS -->
-
-        <div class="conquista bloqueada">
-
-            <div class="icone">🔒</div>
-
-            <h3>Consistência</h3>
-
-            <p>
-                Registre recordes por 3 meses consecutivos.
-            </p>
-
-            <div class="footer">
-
-                <span>⭐ Geral</span>
-
-                <span>
-                    0 / 3
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="conquista bloqueada">
-
-            <div class="icone">🔒</div>
-
-            <h3>Arremessador Feroz</h3>
-
-            <p>
-                Registre um arremesso acima de 50m.
-            </p>
-
-            <div class="footer">
-
-                <span>🥏 Arremessos</span>
-
-                <span>
-                    42 / 50
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="conquista bloqueada">
-
-            <div class="icone">🔒</div>
-
-            <h3>Lendário</h3>
-
-            <p>
-                Quebre 3 recordes pessoais no mesmo mês.
-            </p>
-
-            <div class="footer">
-
-                <span>⭐ Geral</span>
-
-                <span>
-                    1 / 3
-                </span>
-
-            </div>
-
-        </div>
+    <section class="conquistas" id="listaConquistas">
 
     </section>
 

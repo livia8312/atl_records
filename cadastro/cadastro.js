@@ -23,9 +23,10 @@ formulario.addEventListener('submit', (event) => {
         dataNascimento: formulario.dataNascimento.value,
         email: formulario.email.value,
         senha: formulario.senha.value,
-        confirmarSenha: formulario.confirmar-senha.value,
+        confirmarSenha: formulario.confirmarSenha.value,
         records: [],
-    }
+        conquistas: []
+}
 
     usuarios.push(usuario)
     // localStorage.setItem("usuarios", JSON.stringify(usuarios));

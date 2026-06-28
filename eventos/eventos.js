@@ -21,7 +21,7 @@ function exibirEventos() {
                 ${inscrito ? "Cancelar Inscrição" : "Inscrever-se"}
             </button>
         `;
-
+        
         const botao = div.querySelector(".btn-inscricao");
         botao.addEventListener("click", () => {
             if(inscrito){

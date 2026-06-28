@@ -14,9 +14,11 @@ if(parametrosDaUrl.has('primeiroAcesso')) { //verifica se é a primeira vez que 
 const usuarioLogado = loadFromLocalStorage('usuarioLogado');
 document.querySelector('#nome-usuario').textContent = usuarioLogado.nome;
 
-    document.querySelector('#nome-usuario-cabecario').textContent = usuarioLogado.nome;
+document.querySelector('#nome-usuario-cabecario').textContent = usuarioLogado.nome;
 
-
+// atualiza o card de conquistas
+const totalConquistas = usuarioLogado.conquistas ? usuarioLogado.conquistas.length: 0;
+document.querySelector(".stats .navy h2").textContent = totalConquistas;
 
 const modal = document.getElementById("modalEvento");
 
