@@ -382,7 +382,7 @@ criamos automaticamente.
 
 Assim evitamos erros.
 */
-
+//SO CHECA
 function garantirArrayDeConquistas(usuario){
     if(!usuario.conquistas){
 
@@ -485,7 +485,7 @@ function desbloquearConquista(usuario, conquista){
     e o usario manter suas conquistas.
     */
     const cadastro = loadFromLocalStorage("cadastro");
-
+    //ATUALIZA NO LOCALSTORAGE AS INFORMACOES DO USUARIO EM CADASTRADOS
     const indice = cadastro.findIndex(user => user.email === usuario.email);
 
     if(indice !== -1){
@@ -566,7 +566,7 @@ ela devolve um array com tudo que precisa pra montar os cards.
 
 export function obterConquistasDoUsuario(usuario){
     garantirArrayDeConquistas(usuario);
-
+    //RETORNAR O ARRAY CONQUISTAS E VE SE O ATRIBUTO DESBLOQUEADA É TRUE OU FALSE, SE FOR TRUE ELE VAI MOSTRAR O CARD DESBLOQUEADO, SE FOR FALSE ELE VAI MOSTRAR O CARD TRANCADO POR MEIO DA FUNCAO USUARIOPOSSUICONQUISTA
     return CONQUISTAS.map(conquista =>{
         return{
             ...conquista,

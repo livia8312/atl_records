@@ -199,7 +199,7 @@ function graficoBar(_div, _label, _valores, _cor, _medida) {
 }
 
 let records = loadFromLocalStorage('usuarioLogado').records;
-console.log(records)
+//console.log(records)
 
 const modalidades = {
     corrida: [],
@@ -210,7 +210,7 @@ const modalidades = {
 const modalidadesCorrida = ['100', '200', '400', '800', '1500'];
 const modalidadesSalto = ['altura', 'distancia', 'triplo'];
 const modalidadesArremesso = ['peso', 'disco', 'dardo'];
-
+//ADICIONO O RECORDE DA PESSOA NO ARRAY DENTRO DE MODALIDADES DE ACORDO COM O INCLUDES '' = OS SELECTS DO FORM
 records.forEach(r => {
     if (modalidadesCorrida.includes(r.modalidade)) {
         modalidades.corrida.push(r);
@@ -235,10 +235,11 @@ const cores = {
         fundo: '#9b6d09',
     }
 };
-
+//SELECIO OS 3 SELECTS DA PAGINA
 document.querySelectorAll('.card-topo select').forEach(select => {
+    //PEGA A SEGUNDA CLASSE DO PAI DO PAI NO SELECT
     const type = select.parentElement.parentElement.classList[1];
-    console.log(type)
+    //console.log(type)
 
     desenharGrafico(type);
 
@@ -252,7 +253,9 @@ function desenharGrafico(type) {
     const select = card.querySelector('select');
 
     const dados = modalidades[type]
+    //QUAL CORRIDA E IGUAL AO SELECT.VALUE
     .filter(r => r.modalidade === select.value)
+    //PARADEIXA EM ORDEM AS DATAS CRESCENTE
     .sort((a, b) => new Date(a.data) - new Date(b.data));
 
     card.querySelector('.grafico').innerHTML = '';

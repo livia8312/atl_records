@@ -14,6 +14,8 @@ const formulario = document.querySelector('form');
 formulario.addEventListener('submit', (event) => {
     event.preventDefault();
 
+    const usuarios = loadFromLocalStorage("cadastro");
+
     if(senhaLogin.value === 'pablomedadez' && emailLogin.value === "admin@gmail.com") {
         window.location.href = '../admin/admin.html';
         return;

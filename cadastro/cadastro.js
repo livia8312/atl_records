@@ -1,10 +1,9 @@
 import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
 
 
-const usuarios = loadFromLocalStorage("cadastro");
-
 const formulario = document.querySelector('form')
 formulario.addEventListener('submit', (event) => {
+    EVENT.preventDefault();
     const usuarios = loadFromLocalStorage('cadastro');
 
     if (formulario.senha.value !== formulario.confirmarSenha.value) {
@@ -33,7 +32,7 @@ formulario.addEventListener('submit', (event) => {
     saveToLocalStorage("usuarioLogado", usuario);
     saveToLocalStorage("cadastro", usuarios);
 
-    console.log(localStorage.getItem("usuarios"))
+    //console.log(localStorage.getItem("usuarios"))
 
     /* queryParam 'primeiroAcesso' pra fazer a validação de exibição da mensagem de boas vindas.
         * ex: primeiroAcesso == true \ Bem vindo, fulano!
