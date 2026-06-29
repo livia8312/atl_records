@@ -3,7 +3,7 @@ import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js"
 
 const formulario = document.querySelector('form')
 formulario.addEventListener('submit', (event) => {
-    EVENT.preventDefault();
+    event.preventDefault();
     const usuarios = loadFromLocalStorage('cadastro');
 
     if (formulario.senha.value !== formulario.confirmarSenha.value) {
