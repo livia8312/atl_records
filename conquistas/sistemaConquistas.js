@@ -1,6 +1,4 @@
 /*
-criei esse arquivo separado pra deixar aqui toda a lógica das conquistas e quem sabe
-ficar melhor de entender :).
 
 Objetivos:
 
@@ -23,38 +21,12 @@ import { showToast } from "../login/toast.js";
 
 
 /*
-lista de conquistas do sistema.
-Cada conquista possui:
-
-id:
-identificador único
-
-titulo:
-nome exibido ao usuário
-
-descricao:
-descrição da conquista
-
-categoria:
-utilizada para mostrar a categoria do card
-
-icone:
-emoji do card
-
-tipo:
-bronze
-prata
-ouro
-diamante
-
 verificar()
 verifica se o usuário já atingiu a conquista.
 */
 
 export const CONQUISTAS = [
-
     // conquistas gerais:
-
     {
 
         id: "primeiro-passo",
@@ -363,13 +335,9 @@ funções para ajudar a manipular as conquistas do usuário:
 
 Em vez de acessar diretamente:
 usuario.conquistas
-
 o resto do projeto pode só chamar elas
-
 usuarioPossuiConquista()
-
 obterQuantidadeConquistas()
-
 etc.
 */
 
@@ -377,9 +345,7 @@ etc.
 /*
 Caso o usuário seja antigo e ainda não possua
 o array de conquistas,
-
 criamos automaticamente.
-
 Assim evitamos erros.
 */
 //SO CHECA
@@ -388,55 +354,26 @@ function garantirArrayDeConquistas(usuario){
 
         usuario.conquistas = [];
     }
-}
+} 
 
-
-/*
-Retorna TRUE ou FALSE.
-
-Exemplo:
-
-usuarioPossuiConquista(usuario, "primeiro-passo")
-*/
-
+//Retorna TRUE ou FALSE.
 export function usuarioPossuiConquista(usuario,id){
     garantirArrayDeConquistas(usuario);
 
     return usuario.conquistas.includes(id);
 }
 
-
-/*
-Retorna o objeto inteiro da conquista e
-verifica se o usuário já possui a conquista.
-
-muito útil para montar os cards.
-*/
-
+//PEGA UMA CONQUISTA PELO ID
 export function obterConquista(id){
     return CONQUISTAS.find(conquista => conquista.id === id);
 }
 
-
-/*
-Retorna todas as conquistas.
-
-A página conquistas.html utilizará
-esta função.
-*/
-
+//RETORNA TODAS AS CONQUISTAS
 export function obterTodasConquistas(){
     return CONQUISTAS;
 }
 
-
-/*
-Quantidade desbloqueada.
-
-Exemplo:
-4
-*/
-
+//QUANTAS CONQUISTAS JA DESBLOQUEOU
 export function obterQuantidadeConquistas(usuario){
     garantirArrayDeConquistas(usuario);
 
@@ -444,15 +381,7 @@ export function obterQuantidadeConquistas(usuario){
 
 }
 
-/*
-Retorna o progresso em porcentagem.
-
-Exemplo:
-33%
-67%
-100%
-*/
-
+//PROGRESSO EM PORCENTO
 export function obterPorcentagem(usuario){
     garantirArrayDeConquistas(usuario);
 
@@ -460,19 +389,11 @@ export function obterPorcentagem(usuario){
         usuario.conquistas.length/CONQUISTAS.length*100
     );
 }
-/*
-desbloquearConquista()
 
-é pra chamar essa função só quando
-a conquista ainda nao foi desbloqueada.
-
-ela faz:
-adiciona a conquista ao array de conquistas do usuário.
-salva no usuário.
-atualiza isso tudo no cadastro pra nao ficar coisa velha.
-mostra o toast de conquista desbloqueada.
-*/
-
+//ADICIONA USUARIO
+//SALVA NO LOCALSTORAGE
+//ATUALIZA CADASTRO
+//MOST4RA O TOAST
 function desbloquearConquista(usuario, conquista){
     garantirArrayDeConquistas(usuario);
 
@@ -504,22 +425,9 @@ function desbloquearConquista(usuario, conquista){
 
 }
 
-
-/*
-essa é a única função que o resto dos arquivos
-precisa conhecer.
-
-sempre que acontecer algo:
-
-novo recorde
-
-novo evento etc.
-
-chama:
-
-verificarConquistas(usuarioLogado);
-*/
-
+//PERCORRE  TODAS AS CONQUISTAS
+//IGNORRA AS QUE JA TEM
+//CHAMA VERIFICAR() DE CADA OBJETO
 export function verificarConquistas(usuario){
 
     garantirArrayDeConquistas(usuario);
@@ -555,25 +463,16 @@ export function verificarConquistas(usuario){
     });
 }
 
-
-/*
-função que monta os cards.
-
-vai ser usada na pagina conquistas.html.
-
-ela devolve um array com tudo que precisa pra montar os cards.
-*/
-
+//MONTAR CARDS
 export function obterConquistasDoUsuario(usuario){
     garantirArrayDeConquistas(usuario);
     //RETORNAR O ARRAY CONQUISTAS E VE SE O ATRIBUTO DESBLOQUEADA É TRUE OU FALSE, SE FOR TRUE ELE VAI MOSTRAR O CARD DESBLOQUEADO, SE FOR FALSE ELE VAI MOSTRAR O CARD TRANCADO POR MEIO DA FUNCAO USUARIOPOSSUICONQUISTA
     return CONQUISTAS.map(conquista =>{
         return{
+            //COPIA TUDO DO CONQUISTA
             ...conquista,
 
-            desbloqueada:
-
-            usuarioPossuiConquista(usuario, conquista.id)
+            desbloqueada: usuarioPossuiConquista(usuario, conquista.id)
         };
 
     });
