@@ -126,7 +126,7 @@ export const CONQUISTAS = [
         id: "lenda",
 
         titulo: "Lenda do AtlRecords",
-
+    
         descricao: "Registre 50 recordes.",
 
         categoria: "⭐ Geral",

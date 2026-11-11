@@ -1,42 +1,67 @@
-import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
+import { saveToLocalStorage } from "../inicial/inicial.js";
 
+const formulario = document.querySelector("#formCadastro");
 
-const formulario = document.querySelector('form')
-formulario.addEventListener('submit', (event) => {
+formulario.addEventListener("submit", async (event) => {
+
     event.preventDefault();
-    const usuarios = loadFromLocalStorage('cadastro');
 
-    if (formulario.senha.value !== formulario.confirmarSenha.value) {
-        alert('As senhas não coincidem!');
+    const senha = formulario.elements.namedItem("senha").value;
+    const confirmarSenha = formulario.elements.namedItem("confirmarSenha").value;
+
+    if (senha !== confirmarSenha) {
+        alert("As senhas não coincidem!");
         return;
     }
 
-    if(usuarios.find(user => user.email === formulario.email.value)) {
-        alert('Usuário já cadastrado');
-        return;
+    const dados = new FormData(formulario);
+
+    try {
+
+        const resposta = await fetch("../php/cadastrar.php", {
+            method: "POST",
+            body: dados
+        });
+
+        const texto = await resposta.text();
+
+        console.log("Status HTTP:", resposta.status);
+        console.log("Resposta do PHP:", texto);
+
+        let resultado;
+
+        try {
+            resultado = JSON.parse(texto);
+        } catch {
+            alert("O PHP não retornou uma resposta JSON válida. Confira o Console.");
+            return;
+        }
+
+        if (!resposta.ok || !resultado.sucesso) {
+            alert(resultado.mensagem);
+            return;
+        }
+
+        const usuario = {
+            nome: formulario.elements.namedItem("nome").value,
+            dataNascimento: formulario.elements.namedItem("dataNascimento").value,
+            email: formulario.elements.namedItem("email").value,
+            records: [],
+            conquistas: []
+        };
+
+        saveToLocalStorage("usuarioLogado", usuario);
+
+        alert(resultado.mensagem);
+
+        // Redirecionamento temporariamente desativado para o teste.
+        // window.location.href = "../perfil2/perfil2.html?primeiroAcesso=true";
+
+    } catch (erro) {
+
+        console.error("Erro:", erro);
+        alert("Não foi possível conectar ao servidor.");
+
     }
 
-    event.preventDefault()
-    let usuario = {
-        nome: formulario.nome.value,
-        dataNascimento: formulario.dataNascimento.value,
-        email: formulario.email.value,
-        senha: formulario.senha.value,
-        confirmarSenha: formulario.confirmarSenha.value,
-        records: [],
-        conquistas: []
-}
-
-    usuarios.push(usuario)
-    // localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    saveToLocalStorage("usuarioLogado", usuario);
-    saveToLocalStorage("cadastro", usuarios);
-
-    //console.log(localStorage.getItem("usuarios"))
-
-    /* queryParam 'primeiroAcesso' pra fazer a validação de exibição da mensagem de boas vindas.
-        * ex: primeiroAcesso == true \ Bem vindo, fulano!
-        * ex: primeiroAcesso == undefined | Bem vindo de volta, fulano!
-    */
-    window.location.href = "../perfil2/perfil2.html?primeiroAcesso=true"
-})
+});

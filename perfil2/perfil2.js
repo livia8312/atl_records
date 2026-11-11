@@ -7,13 +7,14 @@ const stringDeBuscaDaUrl = window.location.search; // procura o parametro de bus
  
 const parametrosDaUrl = new URLSearchParams(stringDeBuscaDaUrl); // objeto do tipo URLSearchParams (.get, .set, .delete, ...);
 
-if(parametrosDaUrl.has('primeiroAcesso')) { //verifica se é a primeira vez que algum parametro de url aparece;
+if (parametrosDaUrl.has('primeiroAcesso')) {
 
-    const textoBemVindo = document.querySelector('#texto-bem-vindo'); //seleciona o id do texto `bem vindo de volta`;
-    
-    textoBemVindo.textContent = 'Bem vindo'; //altera o texto para bem vindo, caso seja a primeira vez que aquele parametro da url é acessado;
-} 
+    const textoBemVindo = document.querySelector('#texto-bem-vindo');
 
+    if (textoBemVindo) {
+        textoBemVindo.textContent = 'Bem vindo';
+    }
+}
 const usuarioLogado = loadFromLocalStorage('usuarioLogado');
 document.querySelector('#nome-usuario').textContent = usuarioLogado.nome;
 
