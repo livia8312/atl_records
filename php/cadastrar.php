@@ -26,11 +26,11 @@ try {
 
     $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO usuarios
+    $sql = "INSERT INTO usuario
             (nome, data_nascimento, email, senha)
             VALUES (:nome, :data, :email, :senha)";
 
-    $comando = $conexao->prepare($sql);
+    $comando = $conn->prepare($sql);
 
     $comando->execute([
         ":nome" => $nome,
