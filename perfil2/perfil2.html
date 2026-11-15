@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -7,167 +8,138 @@
 
     <title>Dashboard - AtlRecords</title>
 
-    <script src="perfil2.js" defer type="module"></script>
-
     <link rel="stylesheet" href="perfil2.css">
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="perfil2.js" defer type="module"></script>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="header">
+    <!-- HEADER -->
+    <header class="header">
 
-    <div class="logo">
-        <img src="logo.png" alt="">
-    </div>
-
-    <div class="user-area">
-
-        <div class="user-info">
-            <h4><span id="nome-usuario-cabecario"></span></h4>
-            <span>↗ Atleta em evolução</span>
+        <div class="logo">
+            <img src="logo.png" alt="AtlRecords">
         </div>
 
-        <div class="avatar">👤</div>
+        <div class="user-area">
 
+            <div class="user-info">
+                <h4>
+                    <span id="nome-usuario-cabecario"></span>
+                </h4>
 
-        <button class="icon-btn logout">
-            <a href="../inicial/inicial.html">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            </a>
-        </button>
+                <span>↗ Atleta em evolução</span>
+            </div>
 
-    </div>
+            <div class="avatar">👤</div>
 
-</header>
-
-<div class="header-line"></div>
-
-<!-- MAIN -->
-<main class="container">
-
-    <!-- WELCOME -->
-    <section class="welcome">
-
-        <h1><span id="texto-bem-vindo">Bem-vindo de volta</span>, <span id="nome-usuario" />! 👋</h1>
-
-        <p>Continue quebrando seus limites e alcançando novos recordes</p>
-
-    </section>
-
-
-    <!-- CARDS -->
-    <section class="cards">
-
-        <div class="feature-card blue">
-
-            <div class="card-icon">🏆</div>
-
-            <h2>Meus Registros</h2>
-
-            <p>Acompanhe todos os seus registros pessoais e cdescubra seus recordes</p>
-
-            <a href="../recordes/recordes.html">Ver meus registros ⦿</a>
+            <button class="icon-btn logout">
+                <a href="../inicial/inicial.html">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </button>
 
         </div>
 
-        <div class="feature-card gold">
+    </header>
 
-            <div class="card-icon">📅</div>
+    <div class="header-line"></div>
 
-            <h2>Próximos Eventos</h2>
+    <!-- MAIN -->
+    <main class="container">
 
-            <a href="../eventos/eventos.html" id="explorarEventos">Explorar eventos ⦿</a>
+        <!-- WELCOME -->
+        <section class="welcome">
 
-        </div>
+            <h1>
+                <span id="texto-bem-vindo">Bem-vindo de volta</span>,
+                <span id="nome-usuario"></span>! 👋
+            </h1>
 
-        <div class="feature-card purple">
+            <p>
+                Continue quebrando seus limites e alcançando novos recordes.
+            </p>
 
-            <div class="card-icon">🎖</div>
+        </section>
 
-            <h2>Minhas Conquistas</h2>
+        <!-- CARDS -->
+        <section class="cards">
 
-            <p>Troféus, medalhas e badges conquistados ao longo da jornada</p>
+            <!-- REGISTROS -->
+            <div class="feature-card blue">
 
-            <a href="../conquistas/conquistas.html">Ver conquistas ⦿</a>
+                <div class="card-icon">🏆</div>
 
-        </div>
+                <h2>Meus Registros</h2>
 
-        <div class="feature-card green-card">
+                <p>
+                    Acompanhe todos os seus registros pessoais e descubra seus recordes.
+                </p>
 
-            <div class="card-icon">📈</div>
-
-            <h2>Melhorias</h2>
-
-            <p>Acompanhe sua evolução e veja estatísticas de progresso</p>
-
-            <a href="../melhorias/melhorias.html">Ver estatísticas ⦿</a>
-
-        </div>
-
-    </section>
-
-</main>
-
-<!-- MODAL RECORDES -->
-<div id="modalEvento">
-
-    <div class="modal-content">
-
-        <button id="fecharModal" class="fechar">✕</button>
-
-        <h2>Adicionar registro</h2>
-
-        <form>
-
-            <label>Modalidade*</label>
-
-            <select name="modalidade" id="idDoInputModalidade">
-                <option value="">Modalidade</option>
-                <option value="100">100m Rasos</option>
-                <option value="200">200m Rasos</option>
-                <option value="400">400m Rasos</option>
-                <option value="800">800m</option>
-                <option value="1500">1500m</option>
-                <option value="altura">Salto em Altura</option>
-                <option value="distancia">Salto em Distância</option>
-                <option value="triplo">Salto Triplo</option>
-                <option value="peso">Arremesso de Peso</option>
-                <option value="disco">Arremesso de Disco</option>
-                <option value="dardo">Arremesso de Dardo</option>
-            </select>
-
-            <div class="linha">
-
-                <div>
-                    <label>Resultado *</label>
-                    <input type="number" step="any" min="0" max="" placeholder="0.0" name="resultado" id="idDoInputResultado">
-                </div>
-
-                <div>
-                    <label>Data *</label>
-                    <input type="date" name="data" id="idDoInputData">
-                </div>
+                <a href="../recordes/recordes.html">
+                    Ver meus registros ⦿
+                </a>
 
             </div>
 
-            <div class="botoes-modal">
+            <!-- EVENTOS -->
+            <div class="feature-card gold">
 
-                <button  id="cancelar" type="button">Cancelar</button>
+                <div class="card-icon">📅</div>
 
-                <button id="publicar" type="submit">
-                    Adicionar Registro
-                </button>
+                <h2>Próximos Eventos</h2>
+
+                <p>
+                    Confira os eventos disponíveis e participe das competições.
+                </p>
+
+                <a href="../eventos/eventos.html" id="explorarEventos">
+                    Explorar eventos ⦿
+                </a>
 
             </div>
 
-        </form>
+            <!-- CONQUISTAS -->
+            <div class="feature-card purple">
 
-    </div>
+                <div class="card-icon">🎖</div>
 
-</div>
+                <h2>Minhas Conquistas</h2>
+
+                <p>
+                    Troféus, medalhas e badges conquistados ao longo da jornada.
+                </p>
+
+                <a href="../conquistas/conquistas.html">
+                    Ver conquistas ⦿
+                </a>
+
+            </div>
+
+            <!-- MELHORIAS -->
+            <div class="feature-card green-card">
+
+                <div class="card-icon">📈</div>
+
+                <h2>Melhorias</h2>
+
+                <p>
+                    Acompanhe sua evolução e veja estatísticas de progresso.
+                </p>
+
+                <a href="../melhorias/melhorias.html">
+                    Ver estatísticas ⦿
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </body>
 </html>

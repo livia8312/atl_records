@@ -3,7 +3,7 @@ import { saveToLocalStorage } from "../inicial/inicial.js";
 const formulario = document.querySelector("#formCadastro");
 
 formulario.addEventListener("submit", async (event) => {
-
+console.log("oi");
     event.preventDefault();
 
     const senha = formulario.elements.namedItem("senha").value;
