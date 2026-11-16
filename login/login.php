@@ -1,18 +1,18 @@
+
 <?php
+
+session_start();
 
 header("Content-Type: application/json; charset=utf-8");
 
 try {
 
-    require_once __DIR__ . "/conexao.php";
+    require_once __DIR__ . "/../php/conexao.php";
 
     $email = $_POST["email"] ?? "";
     $senha = $_POST["senha"] ?? "";
 
-    if (
-        empty($email) ||
-        empty($senha)
-    ) {
+    if (empty($email) || empty($senha)) {
         echo json_encode([
             "sucesso" => false,
             "mensagem" => "Preencha todos os campos!"
@@ -20,31 +20,36 @@ try {
         exit;
     }
 
-    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+    // Buscar usuário pelo e-mail
+    $sql = "SELECT id_usuario, nome, email, senha
+            FROM usuario
+            WHERE email = :email";
 
-    $sql = "select senha from usuario where email = :email";
-
-    $comando = $conn->prepare($sql);
+    $comando = $conexao->prepare($sql);
 
     $comando->execute([
         ":email" => $email
     ]);
 
-    $senhaBanco = $comando->fetchAll(PDO::FETCH_ASSOC);
+    $usuario = $comando->fetch(PDO::FETCH_ASSOC);
 
-
-
-    if($senhaHash !== $senhaBanco){
-       echo json_encode([
-        "sucesso" => false,
-        "mensagem" => "Senha incorreta!"
-    ]); 
-    exit;
+    // Verificar se o usuário existe e se a senha está correta
+    if (!$usuario || !password_verify($senha, $usuario["senha"])) {
+        echo json_encode([
+            "sucesso" => false,
+            "mensagem" => "E-mail ou senha incorretos!"
+        ]);
+        exit;
     }
+
+    // Criar sessão do usuário
+    session_regenerate_id(true);
+
+    $_SESSION["usuario_id"] = $usuario["id_usuario"];
 
     echo json_encode([
         "sucesso" => true,
-        "mensagem" => "Cadastro realizado com sucesso!"
+        "mensagem" => "Login realizado com sucesso!"
     ]);
 
 } catch (PDOException $erro) {
@@ -53,6 +58,7 @@ try {
 
     echo json_encode([
         "sucesso" => false,
-        "mensagem" => "Erro no banco: " . $erro->getMessage()
+        "mensagem" => "Erro no banco de dados."
     ]);
+
 }

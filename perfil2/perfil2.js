@@ -1,41 +1,60 @@
 
-import { loadFromLocalStorage } from "../inicial/inicial.js";
+async function carregarPerfil() {
 
-// Carregar usuário logado
-const usuarioLogado = loadFromLocalStorage("usuarioLogado");
+    try {
 
-if (!usuarioLogado) {
-    console.error("Nenhum usuário está logado.");
-} else {
+        const resposta = await fetch("../php/perfil.php", {
+            method: "GET",
+            credentials: "same-origin"
+        });
 
-    // Exibir nome do usuário
-    const nomeUsuario = document.querySelector("#nome-usuario");
-    const nomeCabecalho = document.querySelector("#nome-usuario-cabecario");
+        const resultado = await resposta.json();
 
-    if (nomeUsuario) {
-        nomeUsuario.textContent = usuarioLogado.nome;
-    }
+        console.log("Resposta do perfil:", resultado);
 
-    if (nomeCabecalho) {
-        nomeCabecalho.textContent = usuarioLogado.nome;
-    }
-
-    // Verificar primeiro acesso
-    const parametrosDaUrl = new URLSearchParams(window.location.search);
-
-    if (parametrosDaUrl.has("primeiroAcesso")) {
-        const textoBemVindo = document.querySelector("#texto-bem-vindo");
-
-        if (textoBemVindo) {
-            textoBemVindo.textContent = "Bem-vindo";
+        if (!resposta.ok || !resultado.sucesso) {
+            console.error("Erro:", resultado.mensagem);
+            return;
         }
+
+        const usuarioLogado = resultado.usuario;
+
+        const nomeUsuario = document.querySelector("#nome-usuario");
+        const nomeCabecalho = document.querySelector(
+            "#nome-usuario-cabecario"
+        );
+
+        if (nomeUsuario) {
+            nomeUsuario.textContent = usuarioLogado.nome;
+        }
+
+        if (nomeCabecalho) {
+            nomeCabecalho.textContent = usuarioLogado.nome;
+        }
+
+        const parametrosDaUrl = new URLSearchParams(
+            window.location.search
+        );
+
+        if (parametrosDaUrl.has("primeiroAcesso")) {
+
+            const textoBemVindo = document.querySelector(
+                "#texto-bem-vindo"
+            );
+
+            if (textoBemVindo) {
+                textoBemVindo.textContent = "Bem-vindo";
+            }
+        }
+
+        console.log("Usuário carregado:", usuarioLogado.nome);
+
+    } catch (erro) {
+
+        console.error("Erro ao carregar perfil:", erro);
+
     }
 
-    // Contar registros e conquistas
-    const totalRecords = usuarioLogado.records?.length ?? 0;
-    const totalConquistas = usuarioLogado.conquistas?.length ?? 0;
-
-    console.log("Usuário carregado:", usuarioLogado.nome);
-    console.log("Total de registros:", totalRecords);
-    console.log("Total de conquistas:", totalConquistas);
 }
+
+carregarPerfil();

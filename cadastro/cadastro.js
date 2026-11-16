@@ -1,4 +1,3 @@
-import { saveToLocalStorage } from "../inicial/inicial.js";
 
 const formulario = document.querySelector("#formCadastro");
 
@@ -50,12 +49,11 @@ console.log("oi");
             conquistas: []
         };
 
-        saveToLocalStorage("usuarioLogado", usuario);
 
         alert(resultado.mensagem);
 
         // Redirecionamento temporariamente desativado para o teste.
-        // window.location.href = "../perfil2/perfil2.html?primeiroAcesso=true";
+        window.location.href = "../perfil2/perfil2.html?primeiroAcesso=true";
 
     } catch (erro) {
 

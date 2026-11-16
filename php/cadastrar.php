@@ -1,4 +1,7 @@
+
 <?php
+
+session_start();
 
 header("Content-Type: application/json; charset=utf-8");
 
@@ -30,7 +33,7 @@ try {
             (nome, data_nascimento, email, senha)
             VALUES (:nome, :data, :email, :senha)";
 
-    $comando = $conn->prepare($sql);
+    $comando = $conexao->prepare($sql);
 
     $comando->execute([
         ":nome" => $nome,
@@ -39,9 +42,21 @@ try {
         ":senha" => $senhaHash
     ]);
 
+    // Salvar o e-mail na sessão
+    $_SESSION["usuario_email"] = $email;
+
+    // Guardar informações para o diagnóstico
+    $idSessao = session_id();
+    $emailSessao = $_SESSION["usuario_email"];
+
+    // Gravar e fechar a sessão
+    session_write_close();
+
     echo json_encode([
         "sucesso" => true,
-        "mensagem" => "Cadastro realizado com sucesso!"
+        "mensagem" => "Cadastro realizado com sucesso!",
+        "id_sessao_cadastro" => $idSessao,
+        "email_salvo" => $emailSessao
     ]);
 
 } catch (PDOException $erro) {
@@ -50,6 +65,7 @@ try {
 
     echo json_encode([
         "sucesso" => false,
-        "mensagem" => "Erro no banco: " . $erro->getMessage()
+        "mensagem" => $erro->getMessage()
     ]);
+
 }

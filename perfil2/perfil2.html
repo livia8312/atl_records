@@ -13,7 +13,7 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <script src="perfil2.js" defer type="module"></script>
+    <script type="module" src="perfil2.js" defer></script>
 </head>
 
 <body>
@@ -37,10 +37,9 @@
 
             <div class="avatar">👤</div>
 
-            <button class="icon-btn logout">
-                <a href="../inicial/inicial.html">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </a>
+            <button class="icon-btn logout" type="button"
+                onclick="window.location.href='../inicial/inicial.html'">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </button>
 
         </div>
@@ -69,7 +68,6 @@
         <!-- CARDS -->
         <section class="cards">
 
-            <!-- REGISTROS -->
             <div class="feature-card blue">
 
                 <div class="card-icon">🏆</div>
@@ -86,7 +84,6 @@
 
             </div>
 
-            <!-- EVENTOS -->
             <div class="feature-card gold">
 
                 <div class="card-icon">📅</div>
@@ -103,7 +100,6 @@
 
             </div>
 
-            <!-- CONQUISTAS -->
             <div class="feature-card purple">
 
                 <div class="card-icon">🎖</div>
@@ -120,7 +116,6 @@
 
             </div>
 
-            <!-- MELHORIAS -->
             <div class="feature-card green-card">
 
                 <div class="card-icon">📈</div>

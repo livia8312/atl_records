@@ -1,47 +1,74 @@
-import { showToast } from './toast.js';
-import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
 
-const usuarios = loadFromLocalStorage("cadastro");
+import { showToast } from './toast.js';
 
 const senhaLogin = document.querySelector("#senha");
 const emailLogin = document.querySelector("#email");
 
-// percorre cadastro
+const formulario = document.querySelector("form");
 
-// compara email e senha com o que foi digitado´
+formulario.addEventListener("submit", async (event) => {
 
-const formulario = document.querySelector('form');
-formulario.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const usuarios = loadFromLocalStorage("cadastro");
-
-    if(senhaLogin.value === 'pablomedadez' && emailLogin.value === "admin@gmail.com") {
-        window.location.href = '../admin/admin.html';
+    // Acesso administrativo
+    if (
+        senhaLogin.value === "pablomedadez" &&
+        emailLogin.value === "admin@gmail.com"
+    ) {
+        window.location.href = "../admin/admin.html";
         return;
     }
-    
-    // carrega usuarios do ls
-    const logado = usuarios.find(usuario => usuario.email === emailLogin.value && usuario.senha === senhaLogin.value);
-    if(logado !== undefined) { 
-        saveToLocalStorage("usuarioLogado", logado);
+
+    const dados = new FormData(formulario);
+
+    try {
+
+        const resposta = await fetch("login.php", {
+            method: "POST",
+            body: dados
+        });
+
+        const texto = await resposta.text();
+
+console.log("Status HTTP:", resposta.status);
+console.log("Resposta do PHP:", texto);
+
+let resultado;
+
+try {
+    resultado = JSON.parse(texto);
+} catch (erro) {
+    console.error("Erro ao converter JSON:", erro);
+    alert("O PHP não retornou JSON válido. Confira o Console.");
+    return;
+}
+
         showToast("Login realizado com sucesso!", "success");
-        location.href = "../perfil2/perfil2.html";
-    } else {
-        formulario.reset();
-        showToast("Email ou senha incorretos!", "error");
+
+        window.location.href = "../perfil2/perfil2.html";
+
+    } catch (erro) {
+
+        console.error("ERRO COMPLETO:", erro);
+
+    alert("Erro na comunicação: " + erro.message);
+
     }
+
 });
 
-const senha = document.getElementById("senha");
+// Mostrar ou esconder senha
 const toggle = document.getElementById("toggle");
 
 toggle.addEventListener("click", () => {
-    if (senha.type === "password") {
-        senha.type = "text";
+
+    if (senhaLogin.type === "password") {
+        senhaLogin.type = "text";
         toggle.classList.replace("fa-eye", "fa-eye-slash");
+
     } else {
-        senha.type = "password";
+        senhaLogin.type = "password";
         toggle.classList.replace("fa-eye-slash", "fa-eye");
     }
+
 });
