@@ -1,147 +1,233 @@
-import { loadFromLocalStorage, saveToLocalStorage } from "../inicial/inicial.js";
+import { loadFromLocalStorage } from "../inicial/inicial.js";
 import { verificarConquistas } from "../conquistas/sistemaConquistas.js";
 
+async function verificarSessao() {
+    try {
+        const resposta = await fetch("../php/perfil.php");
+
+        const dados = await resposta.json();
+
+        console.log("Verificação da sessão:", dados);
+
+        if (!resposta.ok || !dados.sucesso) {
+            window.location.href = "../login/login.html";
+            return false;
+        }
+
+        return true;
+
+    } catch (erro) {
+        console.error("Erro na sessão:", erro);
+        window.location.href = "../login/login.html";
+        return false;
+    }
+}
 const corridasList = document.getElementById("corridasList");
 const saltosList = document.getElementById("saltosList");
 const arremessosList = document.getElementById("arremessosList");
 
+let recordes = [];
+
+// Buscar recordes no banco
+async function buscarRecordes() {
+    try {
+        const resposta = await fetch("../php/recordes/listar.php");
+        const dados = await resposta.json();
+
+        if (!dados.sucesso) {
+            alert(dados.mensagem);
+            return;
+        }
+
+        recordes = dados.recordes.map(r => ({
+            ...r,
+            data: r.data_recorde
+        }));
+
+        exibirRecords();
+
+    } catch (erro) {
+        console.error("Erro ao buscar recordes:", erro);
+        alert("Erro ao carregar recordes!");
+    }
+}
+
+// Exibir recordes e estatísticas
 function exibirRecords() {
-    const usuarioLogado = loadFromLocalStorage('usuarioLogado');
+    const totalEl = document.querySelector(".stats .total h2");
+    const corridaEl = document.querySelector(".stats .corrida h2");
+    const arremessoEl = document.querySelector(".stats .arremesso h2");
+    const saltoEl = document.querySelector(".stats .salto h2");
 
-    if (!usuarioLogado || !usuarioLogado.records) return;
+    const corrida = recordes.filter(r =>
+        ["100", "200", "400", "800", "1500"].includes(r.modalidade)
+    );
 
-    // ===== STATS =====
-    const totalEl = document.querySelector('.stats .total h2');
-    const corridaEl = document.querySelector('.stats .corrida h2');
-    const arremessoEl = document.querySelector('.stats .arremesso h2');
-    const saltoEl = document.querySelector('.stats .salto h2');
+    const arremesso = recordes.filter(r =>
+        ["disco", "dardo", "peso"].includes(r.modalidade)
+    );
 
-    let corrida = usuarioLogado.records.filter(r => ['100', '200', '400', '800', '1500'].includes(r.modalidade));
-    let arremesso = usuarioLogado.records.filter(r => ['disco', 'dardo', 'peso'].includes(r.modalidade));
-    let salto = usuarioLogado.records.filter(r => ['distancia', 'triplo', 'altura'].includes(r.modalidade));
+    const salto = recordes.filter(r =>
+        ["distancia", "triplo", "altura"].includes(r.modalidade)
+    );
 
-    if (totalEl) totalEl.textContent = usuarioLogado.records.length;
+    if (totalEl) totalEl.textContent = recordes.length;
     if (corridaEl) corridaEl.textContent = corrida.length;
     if (arremessoEl) arremessoEl.textContent = arremesso.length;
     if (saltoEl) saltoEl.textContent = salto.length;
 
-    // ===== LIMPAR LISTAS =====
     if (corridasList) corridasList.innerHTML = "";
     if (saltosList) saltosList.innerHTML = "";
     if (arremessosList) arremessosList.innerHTML = "";
 
-    // ===== RENDER =====
-    usuarioLogado.records.forEach((record) => {
+    recordes.forEach(record => {
         const div = document.createElement("div");
         div.classList.add("record-item");
 
-        div.innerHTML = `
-            <strong>${record.modalidade}</strong>
-            <p>${record.resultado} ${record.unidade}</p>
-            <small>${record.data}</small>
-        `;
+        const titulo = document.createElement("strong");
+        titulo.textContent = record.modalidade;
 
-        if (['100', '200', '400', '800', '1500'].includes(record.modalidade)) {
-            if (corridasList) {
-                corridasList.appendChild(div);
-                corridasList.style.display = 'grid';
-            }
-        } else if (['altura', 'distancia', 'triplo'].includes(record.modalidade)) {
-            if (saltosList) {
-                saltosList.appendChild(div);
-                saltosList.style.display = 'grid';
-            }
-        } else if (['peso', 'disco', 'dardo'].includes(record.modalidade)) {
-            if (arremessosList) {
-                arremessosList.appendChild(div);
-                arremessosList.style.display = 'grid';
-            }
-        }
-    });
-}
+        const resultado = document.createElement("p");
+        resultado.textContent = `${record.resultado} ${record.unidade}`;
 
-function adicionarRecord(OBJ) {
-    if (['100', '200', '400'].includes(OBJ.modalidade)) {
-        OBJ.unidade = 'Seg';
-    } else if (['800', '1500'].includes(OBJ.modalidade)) {
-        OBJ.unidade = 'Min';
-    } else {
-        OBJ.unidade = 'M';
-    }
+        const data = document.createElement("small");
+        data.textContent = record.data;
 
-    const usuarioLogado = loadFromLocalStorage('usuarioLogado');
-    if (!usuarioLogado) return;
+        // Botão de excluir
+        const btnExcluir = document.createElement("button");
+        btnExcluir.type = "button";
+        btnExcluir.textContent = "Excluir";
+        btnExcluir.classList.add("btn-excluir");
 
-    if (!usuarioLogado.records) {
-        usuarioLogado.records = [];
-    }
-
-    usuarioLogado.records.push(OBJ);
-    saveToLocalStorage('usuarioLogado', usuarioLogado);
-
-    const cadastro = loadFromLocalStorage('cadastro') || [];
-
-    const indice = cadastro.findIndex(usuario =>
-        usuario.email === usuarioLogado.email
-    );
-
-    if (indice !== -1) {
-        cadastro[indice] = usuarioLogado;
-        saveToLocalStorage('cadastro', cadastro);
-    }
-
-    verificarConquistas(usuarioLogado);
-}
-
-// ===== EVENTOS =====
-const registro = document.querySelector('#modalEvento');
-
-if (registro) {
-    registro.addEventListener("submit", (ev) => {
-        ev.preventDefault();
-
-        const modalidade = document.querySelector('#idDoInputModalidade')?.value;
-        const resultado = document.querySelector('#idDoInputResultado')?.value;
-        const data = document.querySelector('#idDoInputData')?.value;
-
-        if (!modalidade || !resultado || !data) return;
-
-        adicionarRecord({
-            modalidade,
-            resultado,
-            data,
-            unidade: null
+        btnExcluir.addEventListener("click", () => {
+            excluirRecord(record.id_recorde);
         });
 
-        exibirRecords();
-        fecharModal();
+        div.append(titulo, resultado, data, btnExcluir);
+
+        if (["100", "200", "400", "800", "1500"].includes(record.modalidade)) {
+            corridasList?.appendChild(div);
+            if (corridasList) corridasList.style.display = "grid";
+
+        } else if (["altura", "distancia", "triplo"].includes(record.modalidade)) {
+            saltosList?.appendChild(div);
+            if (saltosList) saltosList.style.display = "grid";
+
+        } else {
+            arremessosList?.appendChild(div);
+            if (arremessosList) arremessosList.style.display = "grid";
+        }
+    });
+
+    const usuarioLogado = loadFromLocalStorage("usuarioLogado");
+
+    if (usuarioLogado) {
+        usuarioLogado.records = recordes;
+        verificarConquistas(usuarioLogado);
+    }
+}
+
+// Excluir recorde do banco
+async function excluirRecord(id) {
+    if (!confirm("Tem certeza que deseja excluir este recorde?")) {
+        return;
+    }
+
+    const dados = new FormData();
+    dados.append("id", id);
+
+    try {
+        const resposta = await fetch("../php/recordes/excluir.php", {
+            method: "POST",
+            body: dados
+        });
+
+        const resultado = await resposta.json();
+
+        if (!resultado.sucesso) {
+            alert(resultado.mensagem);
+            return;
+        }
+
+        alert("Recorde excluído!");
+        await buscarRecordes();
+
+    } catch (erro) {
+        console.error("Erro ao excluir recorde:", erro);
+        alert("Erro ao excluir recorde!");
+    }
+}
+
+// Salvar recorde no banco
+async function adicionarRecord(record) {
+    const dados = new FormData();
+
+    dados.append("modalidade", record.modalidade);
+    dados.append("resultado", record.resultado);
+    dados.append("data", record.data);
+
+    try {
+        const resposta = await fetch("../php/recordes/salvar.php", {
+            method: "POST",
+            body: dados
+        });
+
+        const resultado = await resposta.json();
+
+        if (!resultado.sucesso) {
+            alert(resultado.mensagem);
+            return false;
+        }
+
+        await buscarRecordes();
+        return true;
+
+    } catch (erro) {
+        console.error("Erro ao salvar recorde:", erro);
+        alert("Erro ao salvar recorde!");
+        return false;
+    }
+}
+
+// Formulário de cadastro
+const registro = document.querySelector("#modalEvento");
+
+if (registro) {
+    registro.addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+
+        const modalidade = document.querySelector("#idDoInputModalidade")?.value;
+        const resultado = document.querySelector("#idDoInputResultado")?.value;
+        const data = document.querySelector("#idDoInputData")?.value;
+
+        if (!modalidade || !resultado || !data) {
+            alert("Preencha todos os campos!");
+            return;
+        }
+
+        const salvo = await adicionarRecord({
+            modalidade,
+            resultado,
+            data
+        });
+
+        if (salvo) fecharModal();
     });
 }
 
-// ===== MODAL =====
+// Modal
 const modal = document.getElementById("modalEvento");
-
 const btnAbrir = document.getElementById("abrirModal");
 const btnFechar = document.getElementById("fecharModal");
 const btnCancelar = document.getElementById("cancelar");
 
-if (btnAbrir) {
-    btnAbrir.addEventListener("click", abrirModal);
-}
-
-if (btnFechar) {
-    btnFechar.addEventListener("click", fecharModal);
-}
-
-if (btnCancelar) {
-    btnCancelar.addEventListener("click", fecharModal);
-}
+if (btnAbrir) btnAbrir.addEventListener("click", abrirModal);
+if (btnFechar) btnFechar.addEventListener("click", fecharModal);
+if (btnCancelar) btnCancelar.addEventListener("click", fecharModal);
 
 if (modal) {
     modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            fecharModal();
-        }
+        if (e.target === modal) fecharModal();
     });
 }
 
@@ -153,7 +239,11 @@ function fecharModal() {
     if (modal) modal.style.display = "none";
 }
 
-// ===== EXECUÇÃO SEGURA =====
-if (document.querySelector('.stats')) {
-    exibirRecords();
+// Carregar recordes ao abrir a página
+if (document.querySelector(".stats")) {
+    verificarSessao().then((logado) => {
+        if (logado) {
+            buscarRecordes();
+        }
+    });
 }

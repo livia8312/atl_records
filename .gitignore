@@ -1,0 +1,4 @@
+# Arquivos de configuração privada
+.env
+.env.*
+!.env.example

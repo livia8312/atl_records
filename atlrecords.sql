@@ -8,3 +8,5 @@ create table usuario (
     email varchar(100) unique not null,
     senha varchar(255)
 );
+
+SELECT * FROM recorde;

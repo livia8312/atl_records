@@ -18,7 +18,6 @@ try {
     );
 }
 catch (PDOException $error) {
-    // Sem conexão não dá para continuar: devolve JSON em vez de uma página de erro.
     http_response_code(500);
     header("Content-Type: application/json");
     echo json_encode([
