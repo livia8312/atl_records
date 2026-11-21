@@ -8,5 +8,15 @@ create table usuario (
     email varchar(100) unique not null,
     senha varchar(255)
 );
+CREATE TABLE recorde (
+    id_recorde INT NOT NULL AUTO_INCREMENT,
+    id_usuario INT NOT NULL,
+    modalidade VARCHAR(30) NOT NULL,
+    resultado DECIMAL(10,3) NOT NULL,
+    data_recorde DATE NOT NULL,
+    unidade VARCHAR(5) NOT NULL,
 
+    PRIMARY KEY (id_recorde),
+    INDEX (id_usuario)
+);
 SELECT * FROM recorde;
