@@ -30,18 +30,26 @@ formulario.addEventListener("submit", async (event) => {
 
         const texto = await resposta.text();
 
-console.log("Status HTTP:", resposta.status);
-console.log("Resposta do PHP:", texto);
+        console.log("Status HTTP:", resposta.status);
+        console.log("Resposta do PHP:", texto);
 
-let resultado;
+        let resultado;
 
-try {
-    resultado = JSON.parse(texto);
-} catch (erro) {
-    console.error("Erro ao converter JSON:", erro);
-    alert("O PHP não retornou JSON válido. Confira o Console.");
-    return;
-}
+        try {
+            resultado = JSON.parse(texto);
+        } catch (erro) {
+            console.error("Erro ao converter JSON:", erro);
+            alert("O PHP não retornou JSON válido. Confira o Console.");
+            return;
+        }
+
+        if (!resposta.ok || !resultado.sucesso) {
+            showToast(
+                resultado.mensagem || "Não foi possível realizar o login.",
+                "error"
+            );
+            return;
+        }
 
         showToast("Login realizado com sucesso!", "success");
 
@@ -51,7 +59,7 @@ try {
 
         console.error("ERRO COMPLETO:", erro);
 
-    alert("Erro na comunicação: " + erro.message);
+        alert("Erro na comunicação: " + erro.message);
 
     }
 

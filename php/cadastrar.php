@@ -42,22 +42,24 @@ try {
         ":senha" => $senhaHash
     ]);
 
-    // Salvar o e-mail na sessão
-    $_SESSION["usuario_email"] = $email;
+    
+    // recuperar o id do usuário recem cadastrado
+    $idUsuario = $conexao->lastInsertId();
 
-    // Guardar informações para o diagnóstico
-    $idSessao = session_id();
-    $emailSessao = $_SESSION["usuario_email"];
+    // salva o id na sessão
+    $_SESSION["usuario_id"] = $idUsuario;
 
-    // Gravar e fechar a sessão
+    // salvar também o nome
+    $_SESSION["usuario_nome"] = $nome;
+
+    // grava e fecha a sessão
     session_write_close();
 
     echo json_encode([
         "sucesso" => true,
-        "mensagem" => "Cadastro realizado com sucesso!",
-        "id_sessao_cadastro" => $idSessao,
-        "email_salvo" => $emailSessao
+        "mensagem" => "Cadastro realizado com sucesso!"
     ]);
+
 
 } catch (PDOException $erro) {
 

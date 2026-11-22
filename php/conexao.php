@@ -11,18 +11,35 @@ $options = [
 
 try {
     $conexao = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
+        // "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
         $user,
         $password,
         $options
     );
 }
+// catch (PDOException $error) {
+//     http_response_code(500);
+//     header("Content-Type: application/json");
+//     echo json_encode([
+//         "error" => true,
+//         "message" => "Erro ao conectar no banco de dados",
+//     ]);
+//     exit;
+// }
+
+// catch novo, o antigo comentei
+
 catch (PDOException $error) {
     http_response_code(500);
+
     header("Content-Type: application/json");
+
     echo json_encode([
         "error" => true,
         "message" => "Erro ao conectar no banco de dados",
+        "detalhe" => $error->getMessage()
     ]);
+
     exit;
 }

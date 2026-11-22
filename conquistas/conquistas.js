@@ -1,87 +1,92 @@
-import { loadFromLocalStorage } from "../inicial/inicial.js";
 
-import {
-    obterConquistasDoUsuario,
-    obterQuantidadeConquistas,
-    obterPorcentagem
-} from "./sistemaConquistas.js";
-
-const usuario = loadFromLocalStorage("usuarioLogado");
-
-
+import { showToast } from "../login/toast.js";
 
 const listaConquistas = document.querySelector("#listaConquistas");
-
 const barra = document.querySelector("#barraConquistas");
-
 const porcentagem = document.querySelector("#porcentagemConquistas");
-
 const subtitulo = document.querySelector(".title-box p");
 
-//atualiza o progresso do usuario.
+// Busca as conquistas diretamente do PHP
+async function buscarConquistas() {
 
-function atualizarProgresso(){
+    try {
 
-    const desbloqueadas = obterQuantidadeConquistas(usuario);
+        const resposta = await fetch("../php/conquistas/listar_conquistas.php");
 
-    const total = obterConquistasDoUsuario(usuario).length;
 
-    subtitulo.textContent =
-        `${desbloqueadas} / ${total} desbloqueadas`;
+        const dados = await resposta.json();
+        console.log("Conquistas recebidas pelo JavaScript:", dados.conquistas);
 
-    const progresso = obterPorcentagem(usuario);
+        if (!resposta.ok || !dados.conquistas) {
+            throw new Error(dados.mensagem || "Erro ao buscar conquistas.");
+        }
 
-    porcentagem.textContent = `${progresso}%`;
+        atualizarProgresso(dados);
+        renderizarConquistas(dados.conquistas);
 
-    barra.style.width = `${progresso}%`;
+    } catch (erro) {
+
+        console.error("Erro ao carregar conquistas:", erro);
+
+        if (listaConquistas) {
+            listaConquistas.innerHTML =
+                "<p>Não foi possível carregar as conquistas.</p>";
+        }
+
+    }
+}
+
+// Atualiza barra, porcentagem e contador
+function atualizarProgresso(dados) {
+
+    if (subtitulo) {
+        subtitulo.textContent =
+            `${dados.quantidade} / ${dados.total} desbloqueadas`;
+    }
+
+    if (porcentagem) {
+        porcentagem.textContent = `${dados.porcentagem}%`;
+    }
+
+    if (barra) {
+        barra.style.width = `${dados.porcentagem}%`;
+    }
 
 }
 
-// cria um card
-
-function criarCard(conquista){
+// Cria um card
+function criarCard(conquista) {
 
     const card = document.createElement("div");
 
     card.classList.add("conquista");
 
-    if(conquista.desbloqueada){
+    if (conquista.desbloqueada) {
         card.classList.add(conquista.tipo);
-    }else{
+    } else {
         card.classList.add("bloqueada");
     }
 
     card.innerHTML = `
 
         <div class="icone">
-
-            ${
-                conquista.desbloqueada ? conquista.icone: "🔒"
-            }
-
+            ${conquista.desbloqueada ? conquista.icone : "🔒"}
         </div>
 
-        <h3>
-            ${conquista.titulo}
-        </h3>
+        <h3>${conquista.titulo}</h3>
 
-        <p>
-            ${conquista.descricao}
-        </p>
+        <p>${conquista.descricao}</p>
 
         <div class="footer">
 
-            <span>
-                ${conquista.categoria}
-            </span>
+            <span>${conquista.categoria}</span>
 
             <span>
-
                 ${
-                    conquista.desbloqueada ? "✅ Desbloqueada": "🔒 Bloqueada"
-
+                    conquista.desbloqueada
+                    ? "✅ Desbloqueada"
+                    : "🔒 Bloqueada"
                 }
-
             </span>
 
         </div>
@@ -92,17 +97,13 @@ function criarCard(conquista){
 
 }
 
-// rendereiza as conquistas
+// Desenha todos os cards
+function renderizarConquistas(conquistas) {
 
-
-function renderizarConquistas(){
+    if (!listaConquistas) return;
 
     listaConquistas.innerHTML = "";
 
-    // procura todas as conquistas:
-    const conquistas = obterConquistasDoUsuario(usuario);
-
-    // cria um card pra cada conquista:
     conquistas.forEach(conquista => {
 
         const card = criarCard(conquista);
@@ -113,19 +114,5 @@ function renderizarConquistas(){
 
 }
 
-/*
-sempre que a pagina abrir
-atualiza a barra
-atualiza a %
-atualiza o contador
-e desenha todos os cards
-*/
-
-function iniciarPagina(){
-    atualizarProgresso();
-
-    renderizarConquistas();
-}
-
-// inicia a tela
-iniciarPagina();
+// Inicia a página
+buscarConquistas();
