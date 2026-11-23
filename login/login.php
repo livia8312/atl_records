@@ -21,7 +21,7 @@ try {
     }
 
     // Buscar usuário pelo e-mail
-    $sql = "SELECT id_usuario, nome, email, senha
+    $sql = "SELECT *
             FROM usuario
             WHERE email = :email";
 
@@ -31,9 +31,8 @@ try {
         ":email" => $email
     ]);
 
-    $usuario = $comando->fetch(PDO::FETCH_ASSOC);
+    $usuario = $comando->fetch();
 
-    // Verificar se o usuário existe e se a senha está correta
     if (!$usuario || !password_verify($senha, $usuario["senha"])) {
         echo json_encode([
             "sucesso" => false,
@@ -46,12 +45,12 @@ try {
     session_regenerate_id(true);
 
     $_SESSION["usuario_id"] = $usuario["id_usuario"];
+    $_SESSION["is_admin"] = $usuario["is_admin"];
 
     echo json_encode([
         "sucesso" => true,
         "mensagem" => "Login realizado com sucesso!"
     ]);
-
 } catch (PDOException $erro) {
 
     http_response_code(500);

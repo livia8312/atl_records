@@ -10,59 +10,25 @@ formulario.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
-    // Acesso administrativo
-    if (
-        senhaLogin.value === "pablomedadez" &&
-        emailLogin.value === "admin@gmail.com"
-    ) {
-        window.location.href = "../admin/admin.html";
+    const dados = new FormData(formulario);
+    const resposta = await fetch("login.php", {
+        method: "POST",
+        body: dados
+    });
+
+    const resultado = await resposta.text();
+
+    if (!resposta.ok || !resultado.sucesso) {
+        showToast(
+            resultado.mensagem || "Não foi possível realizar o login.",
+            "error"
+        );
         return;
     }
 
-    const dados = new FormData(formulario);
+    showToast("Login realizado com sucesso!", "success");
 
-    try {
-
-        const resposta = await fetch("login.php", {
-            method: "POST",
-            body: dados
-        });
-
-        const texto = await resposta.text();
-
-        console.log("Status HTTP:", resposta.status);
-        console.log("Resposta do PHP:", texto);
-
-        let resultado;
-
-        try {
-            resultado = JSON.parse(texto);
-        } catch (erro) {
-            console.error("Erro ao converter JSON:", erro);
-            alert("O PHP não retornou JSON válido. Confira o Console.");
-            return;
-        }
-
-        if (!resposta.ok || !resultado.sucesso) {
-            showToast(
-                resultado.mensagem || "Não foi possível realizar o login.",
-                "error"
-            );
-            return;
-        }
-
-        showToast("Login realizado com sucesso!", "success");
-
-        window.location.href = "../perfil2/perfil2.html";
-
-    } catch (erro) {
-
-        console.error("ERRO COMPLETO:", erro);
-
-        alert("Erro na comunicação: " + erro.message);
-
-    }
-
+    window.location.href = "../perfil2/perfil2.html";
 });
 
 // Mostrar ou esconder senha

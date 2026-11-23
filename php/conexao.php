@@ -3,6 +3,7 @@ $host = "localhost";
 $user = "root";
 $password = "";
 $dbname = "atl_records";
+$port = "3306";
 
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // lança exceção quando o SQL falha

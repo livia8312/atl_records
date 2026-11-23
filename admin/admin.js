@@ -1,12 +1,17 @@
-const nomeEvento = document.querySelector("#nomeEvento");
-const categoriaEvento = document.querySelector("#categoriaEvento");
-const dataEvento = document.querySelector("#dataEvento");
-const localEvento = document.querySelector("#localEvento");
-const descricaoEvento = document.querySelector("#descricaoEvento");
+const form = document.getElementById("formEvento");
 
-const eventos = JSON.parse(localStorage.getItem("eventos")) || [];
+let formData = new FormData();
+formData.append("busca", "all");
+
+const eventos = getEventos();
+
 exibirEventos();
 exibirContagem();
+
+async function getEventos(busca = "all") { 
+    await fetch(`../php/admin/admin.php?busca=${busca}`, {method: "GET"});
+    return Response.json() || [];
+}
 
 function criarEvento(evento){
     eventos.push(evento);

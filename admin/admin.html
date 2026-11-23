@@ -71,11 +71,10 @@
             <form id="formEvento" class="form-modal">
 
                 <label>Nome do Evento *</label>
-                <input id="nomeEvento" type="text"
-                    placeholder="Ex: Campeonato Estadual de Velocidade">
+                <input id="nomeEvento" type="text" placeholder="Ex: Campeonato Estadual de Velocidade" name="nomeEvento">
 
                 <label>Categoria *</label>
-                <select id="categoriaEvento">
+                <select id="categoriaEvento" name="categoriaEvento">
                     <option value="" selected>Selecione a categoria</option>
                     <option id="corridas">Corridas</option>
                     <option id="saltos">Saltos</option>
@@ -86,19 +85,18 @@
 
                     <div>
                         <label>Data *</label>
-                        <input id="dataEvento" type="date">
+                        <input id="dataEvento" type="date" name="dataEvento">
                     </div>
 
                     <div>
                         <label>Local *</label>
-                        <input id="localEvento" type="text"
-                            placeholder="Ex: Estádio Municipal, SP">
+                        <input id="localEvento" type="text" placeholder="Ex: Estádio Municipal, SP" name="localEvento">
                     </div>
 
                 </div>
 
                 <label>Descrição</label>
-                <textarea id="descricaoEvento" placeholder="Detalhes sobre o evento, regras, categorias de idade..."></textarea>
+                <textarea id="descricaoEvento" placeholder="Detalhes sobre o evento, regras, categorias de idade..." name="descricaoEvento"></textarea>
 
                 <div class="botoes-modal">
                     <button type="button" id="cancelar">
