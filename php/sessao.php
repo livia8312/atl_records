@@ -12,3 +12,4 @@ if (!isset($_SESSION["usuario_id"])) {
 
 $id_usuario = $_SESSION["usuario_id"];
 $is_admin = $_SESSION["is_admin"];
+
