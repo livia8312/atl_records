@@ -10,13 +10,16 @@ exibirContagem();
 
 async function getEventos(busca = "all") { 
     await fetch(`../php/admin/admin.php?busca=${busca}`, {method: "GET"});
-    return Response.json() || [];
+    return await response.json() || [];
 }
 
-function criarEvento(evento){
-    eventos.push(evento);
-
-    localStorage.setItem("eventos", JSON.stringify(eventos));
+async function criarEvento(){
+    const dados = new FormData(form);
+    
+    await fetch("../php/admin.php", {
+        method: "POST",
+        body: dados
+    });
 
     exibirEventos();
     fecharModal();
@@ -114,21 +117,6 @@ modal.addEventListener("click", (e) => {
 document.querySelector("#formEvento")
     .addEventListener("submit", (e) => {
         e.preventDefault();
-        let evento = {
-            nome:nomeEvento.value,
-            categoria:categoriaEvento.value,
-            data:dataEvento.value,
-            local:localEvento.value,
-            descricao:descricaoEvento.value,
-            inscritos: 0
-        };
-    
-        nomeEvento.value = '';
-        categoriaEvento.value = '';
-        dataEvento.value = '';
-        localEvento.value = '';
-        descricaoEvento.value = '';
-
         criarEvento(evento);
         modal.classList.remove("ativo");
     });
