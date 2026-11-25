@@ -18,20 +18,7 @@ try {
         $password,
         $options
     );
-}
-// catch (PDOException $error) {
-//     http_response_code(500);
-//     header("Content-Type: application/json");
-//     echo json_encode([
-//         "error" => true,
-//         "message" => "Erro ao conectar no banco de dados",
-//     ]);
-//     exit;
-// }
-
-// catch novo, o antigo comentei
-
-catch (PDOException $error) {
+} catch (PDOException $error) {
     http_response_code(500);
 
     header("Content-Type: application/json");
