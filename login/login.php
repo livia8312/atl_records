@@ -31,6 +31,7 @@ try {
         ":email" => $email
     ]);
 
+    //Se o e-mail existir no banco: $usuario vira um array associativo onde cada chave é o nome da coluna da sua tabela
     $usuario = $comando->fetch();
 
     if (!$usuario || !password_verify($senha, $usuario["senha"])) {
@@ -44,6 +45,7 @@ try {
     // Criar sessão do usuário
     session_regenerate_id(true);
 
+    //cria variavel dentro da sessao
     $_SESSION["usuario_id"] = $usuario["id_usuario"];
     $_SESSION["is_admin"] = $usuario["is_admin"];
 
@@ -52,7 +54,8 @@ try {
         "mensagem" => "Login realizado com sucesso!"
     ]);
 } catch (PDOException $erro) {
-
+    
+//envia esse numero pro console caso de algum erro ao executar/conectar com o banco de dados
     http_response_code(500);
 
     echo json_encode([

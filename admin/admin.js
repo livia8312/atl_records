@@ -9,7 +9,9 @@ exibirEventos();
 exibirContagem();
 
 async function getEventos(busca = "all") { 
-    await fetch(`../php/admin/admin.php?busca=${busca}`, {method: "GET"});
+    await fetch(`../php/admin/admin.php?busca=${busca}`, {
+        method: "GET"
+    });
     return await response.json() || [];
 }
 

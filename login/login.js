@@ -16,7 +16,7 @@ formulario.addEventListener("submit", async (event) => {
         body: dados
     });
 
-    const resultado = await resposta.text();
+    const resultado = await resposta.json();
 
     if (!resposta.ok || !resultado.sucesso) {
         showToast(
