@@ -22,57 +22,12 @@ async function buscarEventos(busca = "all") {
         });
     
 
-exibirEventos();
-exibirContagem();
-
-async function getEventos(busca = "all") { 
-    await fetch(`../php/admin/admin.php?busca=${busca}`, {
-        method: "GET"
-    });
-    return await response.json() || [];
-}
-
-async function criarEvento(){
-    const dados = new FormData(form);
-    
-    await fetch("../php/admin.php", {
-        method: "POST",
-        body: dados
-    });
-
-    exibirEventos();
-    fecharModal();
-    exibirContagem();
-}
-
-function exibirEventos(){
-    document.querySelector("#corridas").innerHTML = '';
-    document.querySelector("#saltos").innerHTML = '';
-    document.querySelector("#arremessos").innerHTML = '';
-
-    eventos.forEach((eve, index)=>{
-        const div = document.createElement("div");
-
-        div.classList.add("evento");
-
-        div.innerHTML=`
-            <h3>${eve.nome}</h3>
-            <p>Categoria: ${eve.categoria}</p>
-            <p>Data: ${eve.data}</p>
-            <p>Local: ${eve.local}</p>
-            
-            <p>Descrição: ${eve.descricao}</p>
-            <p>Inscritos: ${eve.inscritos || 0}</p>
-            <div class="acoes">
-        <button class="btn-excluir" onclick="excluirEvento(${index})">
-            Excluir
-        </button>
-    </div>  
-        `;
-
-
-        if(eve.categoria==="Corridas"){
-            document.querySelector("#corridas").appendChild(div);
+        // Tenta ler o JSON independentemente do status
+        let resultado;
+        try {
+            resultado = await resposta.json();
+        } catch {
+            throw new Error(`O servidor retornou uma resposta inválida (Status: ${resposta.status}).`);
         }
 
         // Verifica se a requisição falhou (status diferente de 200-299)
