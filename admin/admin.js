@@ -20,6 +20,7 @@ async function buscarEventos(busca = "all") {
                 "Accept": "application/json"
             }
         });
+    
 
 exibirEventos();
 exibirContagem();
