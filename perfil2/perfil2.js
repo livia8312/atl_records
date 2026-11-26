@@ -8,6 +8,7 @@ async function carregarPerfil() {
             credentials: "same-origin"
         });
 
+        //Lê o corpo da resposta enviada pelo PHP (echo json_encode(...)) e converte o texto JSON em um objeto JavaScript manipulável dentro da constante resultado.
         const resultado = await resposta.json();
 
         console.log("Resposta do perfil:", resultado);
@@ -16,7 +17,8 @@ async function carregarPerfil() {
             console.error("Erro:", resultado.mensagem);
             return;
         }
-
+        
+        //Extrai o objeto usuario (que contém nome e email) de dentro de resultado para facilitar o acesso nas próximas linhas
         const usuarioLogado = resultado.usuario;
 
         const nomeUsuario = document.querySelector("#nome-usuario");
