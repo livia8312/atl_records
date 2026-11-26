@@ -1,9 +1,25 @@
-const form = document.getElementById("formEvento");
+const formEvento = document.getElementById("formEvento");
+const modalEvento = document.getElementById("modalEvento");
+endpointAdminRoot = "../php/admin/"
+const endpointEventos = {
+    busca: endpointAdminRoot + "busca.php",
+    cadastro: endpointAdminRoot + "cadastro.php",
+    deletar: endpointAdminRoot + "deletar.php"
+};
 
-let formData = new FormData();
-formData.append("busca", "all");
+let eventos = [];
 
-const eventos = getEventos();
+async function buscarEventos(busca = "all") {
+    try {
+        // Garante que espaços e caracteres especiais não quebrem a URL
+        const url = `${endpointEventos.busca}?busca=${encodeURIComponent(busca)}`;
+        
+        const resposta = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        });
 
 exibirEventos();
 exibirContagem();
@@ -58,77 +74,143 @@ function exibirEventos(){
             document.querySelector("#corridas").appendChild(div);
         }
 
-        else if(eve.categoria==="Saltos"){
-            document.querySelector("#saltos").appendChild(div);
+        // Verifica se a requisição falhou (status diferente de 200-299)
+        if (!resposta.ok) {
+            throw new Error(resultado.mensagem || resultado.erro || `Erro na requisição: ${resposta.status}`);
         }
 
-        else if(eve.categoria==="Arremessos"){
-            document.querySelector("#arremessos").appendChild(div);
+        return resultado.dados;
+
+    } catch (erro) {
+        // Captura tanto os erros lançados acima quanto falhas de conexão/rede
+        console.error("Falha ao buscar eventos:", erro);
+        throw erro; // Repassa o erro para quem chamou a função tratar (ex: mostrar na tela)
+    }
+}
+
+
+async function carregarEventos() {
+    const resultado =  await buscarEventos();
+    eventos = resultado ?? [];
+    renderizarEventos();
+    renderizarContagens();
+}
+
+function renderizarEventos() {
+    const listas = {
+        corridas: document.getElementById("corridas"),
+        saltos: document.getElementById("saltos"),
+        arremessos: document.getElementById("arremessos")
+    };
+
+    Object.values(listas).forEach(lista => lista.replaceChildren());
+
+    eventos.forEach(evento => {
+        const lista = listas[evento.categoria];
+        if (!lista) return;
+
+        const artigo = document.createElement("article");
+        artigo.className = "evento";
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = evento.nome;
+
+        const categoria = document.createElement("p");
+        categoria.textContent = `Categoria: ${evento.categoria}`;
+
+        const data = document.createElement("p");
+        data.textContent = `Data: ${evento.data}`;
+
+        artigo.append(titulo, categoria, data);
+
+        if (evento.descricao) {
+            const descricao = document.createElement("p");
+            descricao.textContent = `Descrição: ${evento.descricao}`;
+            artigo.appendChild(descricao);
         }
+
+        const acoes = document.createElement("div");
+        acoes.className = "acoes";
+
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.type = "button";
+        botaoExcluir.className = "btn-excluir";
+        botaoExcluir.textContent = "Excluir";
+        botaoExcluir.addEventListener("click", () => excluirEvento(evento.id_evento));
+
+        acoes.appendChild(botaoExcluir);
+        artigo.appendChild(acoes);
+        lista.appendChild(artigo);
     });
-
 }
 
-function exibirContagem() {
-    const totalE = document.querySelector('#totalE');
-    const totalC = document.querySelector('#totalC')
-    const totalS = document.querySelector('#totalS');
-    const totalA = document.querySelector('#totalA');
-
-    totalE.textContent = eventos.length
-    totalC.textContent = eventos.filter(e => e.categoria === 'Corridas').length
-    totalS.textContent = eventos.filter(e => e.categoria === 'Saltos').length
-    totalA.textContent = eventos.filter(e => e.categoria === 'Arremessos').length
+function renderizarContagens() {
+    document.getElementById("totalE").textContent = eventos.length;
+    document.getElementById("totalC").textContent = contarCategoria("corridas");
+    document.getElementById("totalS").textContent = contarCategoria("saltos");
+    document.getElementById("totalA").textContent = contarCategoria("arremessos");
 }
-function excluirEvento(index){
 
-    const confirmar = confirm("Deseja excluir este evento?");
+function contarCategoria(categoria) {
+    return eventos.filter(evento => evento.categoria === categoria).length;
+}
 
-    if(confirmar){
-        eventos.splice(index, 1);
+async function criarEvento(evento) {
+    evento.preventDefault();
 
-        localStorage.setItem("eventos", JSON.stringify(eventos));
+    const botaoPublicar = document.getElementById("publicar");
+    botaoPublicar.disabled = true;
 
-        exibirEventos();
-        exibirContagem();
+    try {
+        await fetch(endpointEventos.cadastro, {
+            method: "POST",
+            body: new FormData(formEvento)
+        });
+        await carregarEventos();
+        formEvento.reset();
+        fecharModal();
+    } catch (erro) {
+        alert(erro.message);
+    } finally {
+        botaoPublicar.disabled = false;
     }
 }
-const modal = document.getElementById("modalEvento");
 
-document.getElementById("abrirModal")
-    .addEventListener("click", () => {
-        abrirModal();
-    });
+async function excluirEvento(idEvento) {
+    if (!confirm("Deseja excluir este evento?")) return;
 
-document.getElementById("fecharModal")
-    .addEventListener("click", () => {
-        fecharModal();
-    });
+    try {
+        const resposta = await fetch(`${endpointEventos.deletar}?id_evento=${encodeURIComponent(idEvento)}`, {
+            method: "DELETE",
+            credentials: "include" // Mantém a sessão do admin ativa
+        });
 
-document.getElementById("cancelar")
-    .addEventListener("click", () => {
-        fecharModal();
-    });
+        const dados = await resposta.json();
 
-modal.addEventListener("click", (e) => {
-    if(e.target === modal){
-        fecharModal();
+        if (!resposta.ok || !dados.sucesso) {
+            throw new Error(dados.mensagem || "Erro ao excluir o evento.");
+        }
+
+        await carregarEventos(); // Atualiza a tela
+    } catch (erro) {
+        alert(erro.message);
     }
+}
+
+function abrirModal() {
+    modalEvento.classList.add("ativo");
+}
+
+function fecharModal() {
+    modalEvento.classList.remove("ativo");
+}
+
+document.getElementById("abrirModal").addEventListener("click", abrirModal);
+document.getElementById("fecharModal").addEventListener("click", fecharModal);
+document.getElementById("cancelar").addEventListener("click", fecharModal);
+modalEvento.addEventListener("click", evento => {
+    if (evento.target === modalEvento) fecharModal();
 });
+formEvento.addEventListener("submit", criarEvento);
 
-document.querySelector("#formEvento")
-    .addEventListener("submit", (e) => {
-        e.preventDefault();
-        criarEvento(evento);
-        modal.classList.remove("ativo");
-    });
-
-exibirEventos();
-
-function abrirModal(){
-    document.getElementById("modalEvento").style.display="flex";
-}
-
-function fecharModal(){
-    document.getElementById("modalEvento").style.display="none";
-};
+carregarEventos().catch(erro => alert(erro.message));
