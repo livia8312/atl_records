@@ -12,7 +12,9 @@ try {
 
         if ($busca === "all") {
             $stmt = $conexao->query("SELECT * FROM evento ORDER BY data, id_evento");
+
         } elseif (in_array($busca, $categoriasPermitidas, true)) {
+            
             $stmt = $conexao->prepare("SELECT * FROM evento WHERE categoria = :categoria ORDER BY data, id_evento");
             $stmt->execute([":categoria" => $busca]);
         } else {

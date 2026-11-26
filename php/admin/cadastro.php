@@ -30,9 +30,10 @@ try {
         echo json_encode(["sucesso" => true, "mensagem" => "Evento criado."]);
         exit;
     }
-    
+    //caso tente outro que nao seja post
     http_response_code(405);
     echo json_encode(["sucesso" => false, "mensagem" => "Método não permitido."]);
+
 } catch (PDOException $erro) {
     http_response_code(500);
     echo json_encode(["sucesso" => false, "mensagem" => "Erro ao acessar os eventos."]);

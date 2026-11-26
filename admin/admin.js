@@ -16,6 +16,7 @@ async function buscarEventos(busca = "all") {
         
         const resposta = await fetch(url, {
             method: "GET",
+            //avisa que tem q voltar em json
             headers: {
                 "Accept": "application/json"
             }
@@ -25,6 +26,7 @@ async function buscarEventos(busca = "all") {
         // Tenta ler o JSON independentemente do status
         let resultado;
         try {
+            //transforma o que vier do php em json para o js entender
             resultado = await resposta.json();
         } catch {
             throw new Error(`O servidor retornou uma resposta inválida (Status: ${resposta.status}).`);
@@ -32,9 +34,10 @@ async function buscarEventos(busca = "all") {
 
         // Verifica se a requisição falhou (status diferente de 200-299)
         if (!resposta.ok) {
+            //se o servidor respondeu com erro ele dispara com a propria mensagem que veio do php
             throw new Error(resultado.mensagem || resultado.erro || `Erro na requisição: ${resposta.status}`);
         }
-
+        //se der tudo certo ele retorna os dados que veio dentro do json
         return resultado.dados;
 
     } catch (erro) {
@@ -48,7 +51,9 @@ async function buscarEventos(busca = "all") {
 async function carregarEventos() {
     const resultado =  await buscarEventos();
     eventos = resultado ?? [];
+    //para aparecer os cards na tela
     renderizarEventos();
+    //para mudar a contagem total
     renderizarContagens();
 }
 
@@ -58,9 +63,10 @@ function renderizarEventos() {
         saltos: document.getElementById("saltos"),
         arremessos: document.getElementById("arremessos")
     };
-
+    //evita que se rwpita na tela e fique duplicado
     Object.values(listas).forEach(lista => lista.replaceChildren());
-
+    
+    //Pega a lista de eventos e passa por um por um, criando um cartão para cada.
     eventos.forEach(evento => {
         const lista = listas[evento.categoria];
         if (!lista) return;
