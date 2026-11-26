@@ -1,6 +1,8 @@
 <?php
 header("Content-Type: application/json; charset=utf-8");
 require_once __DIR__ . "/../conexao.php";
+require __DIR__ . "/../sessao.php";
+require __DIR__ . "/autenticacao.php";
 
 $categoriasPermitidas = ["corridas", "saltos", "arremessos"];
 

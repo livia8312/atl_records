@@ -1,5 +1,7 @@
 <?php
 require __DIR__ . "/../conexao.php";
+require __DIR__ . "/../sessao.php";
+require __DIR__ . "/autenticacao.php";
 
 header("Content-Type: application/json; charset=UTF-8");
 

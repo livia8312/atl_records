@@ -1,18 +1,35 @@
-
 <?php
 
 session_start();
-
 header("Content-Type: application/json; charset=utf-8");
 
-try {
+// Garante que a requisição seja apenas POST
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405); // Method Not Allowed
+    echo json_encode([
+        "sucesso" => false,
+        "mensagem" => "Método não permitido."
+    ]);
+    exit;
+}
 
+try {
     require_once __DIR__ . "/../php/conexao.php";
 
-    $email = $_POST["email"] ?? "";
-    $senha = $_POST["senha"] ?? "";
+    // Suporta tanto envio via FormData ($_POST) quanto via JSON (fetch com body JSON)
+    $dados = $_POST;
+    if (empty($dados)) {
+        $json = json_decode(file_get_contents("php://input"), true);
+        if (is_array($json)) {
+            $dados = $json;
+        }
+    }
+
+    $email = trim($dados["email"] ?? "");
+    $senha = $dados["senha"] ?? "";
 
     if (empty($email) || empty($senha)) {
+        http_response_code(400); // Bad Request
         echo json_encode([
             "sucesso" => false,
             "mensagem" => "Preencha todos os campos!"
@@ -20,21 +37,27 @@ try {
         exit;
     }
 
-    // Buscar usuário pelo e-mail
-    $sql = "SELECT *
-            FROM usuario
-            WHERE email = :email";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo json_encode([
+            "sucesso" => false,
+            "mensagem" => "Formato de e-mail inválido!"
+        ]);
+        exit;
+    }
+
+    // Busca apenas as colunas necessárias
+    $sql = "SELECT id_usuario, senha, is_admin 
+            FROM usuario 
+            WHERE email = :email 
+            LIMIT 1";
 
     $comando = $conexao->prepare($sql);
-
-    $comando->execute([
-        ":email" => $email
-    ]);
-
-    //Se o e-mail existir no banco: $usuario vira um array associativo onde cada chave é o nome da coluna da sua tabela
-    $usuario = $comando->fetch();
+    $comando->execute([":email" => $email]);
+    $usuario = $comando->fetch(PDO::FETCH_ASSOC);
 
     if (!$usuario || !password_verify($senha, $usuario["senha"])) {
+        http_response_code(401); // Unauthorized
         echo json_encode([
             "sucesso" => false,
             "mensagem" => "E-mail ou senha incorretos!"
@@ -42,25 +65,23 @@ try {
         exit;
     }
 
-    // Criar sessão do usuário
+    // Regenera o ID da sessão para evitar Session Fixation
     session_regenerate_id(true);
 
-    //cria variavel dentro da sessao
     $_SESSION["usuario_id"] = $usuario["id_usuario"];
-    $_SESSION["is_admin"] = $usuario["is_admin"];
+    $_SESSION["is_admin"] = (bool) $usuario["is_admin"];
 
+    http_response_code(200);
     echo json_encode([
         "sucesso" => true,
-        "mensagem" => "Login realizado com sucesso!"
+        "mensagem" => "Login realizado com sucesso!",
+        "is_admin" => $_SESSION["is_admin"] // Útil caso o JS precise redirecionar para painéis diferentes
     ]);
-} catch (PDOException $erro) {
-    
-//envia esse numero pro console caso de algum erro ao executar/conectar com o banco de dados
-    http_response_code(500);
 
+} catch (PDOException $erro) {
+    http_response_code(500);
     echo json_encode([
         "sucesso" => false,
-        "mensagem" => "Erro no banco de dados."
+        "mensagem" => "Erro interno no servidor."
     ]);
-
 }
