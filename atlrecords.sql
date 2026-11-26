@@ -4,6 +4,7 @@ use atl_records;
 drop table if exists recorde;
 drop table if exists evento;
 drop table if exists usuario;
+DROP Table IF EXISTS inscricao_evento_usuario;
 
 create table usuario (
 	id_usuario int auto_increment primary key not null,
@@ -34,4 +35,13 @@ create table evento (
     categoria enum('saltos', 'corridas', 'arremessos') not null,
     data date not null,
     descricao longtext
+);
+
+create table inscricao_evento_usuario (
+    id_inscricao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_evento INT NOT NULL,
+    id_usuario INT NOT NULL,
+
+    Foreign Key (id_evento) REFERENCES evento(id_evento),
+    Foreign Key (id_usuario) REFERENCES usuario(id_usuario)
 );
